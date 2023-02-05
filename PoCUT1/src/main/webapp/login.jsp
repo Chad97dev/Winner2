@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Sign Up Form by Colorlib</title>
+<title>Login</title>
 
 <!-- Font Icon -->
 <link rel="stylesheet"
@@ -21,17 +21,9 @@
 		<section class="sign-in">
 			<div class="container">
 				<div class="signin-content">
-					<div class="signin-image">
-						<figure>
-							<img src="images/signin-image.jpg" alt="sing up image">
-						</figure>
-						<a href="registration.jsp" class="signup-image-link">Create an
-							account</a>
-					</div>
-
 					<div class="signin-form">
 						<h2 class="form-title">Sign in</h2>
-						<form method="" action="" class="register-form"
+						<form method="GET" action="CtrlConnexion" class="register-form"
 							id="login-form">
 							<div class="form-group">
 								<label for="username"><i
@@ -54,18 +46,25 @@
 								<input type="submit" name="signin" id="signin"
 									class="form-submit" value="Log in" />
 							</div>
+							<div>
+								Type:<select name="type">
+									<option value="Etudiant">Etudiant</option>
+									<option value="Enseignant">Enseignant</option>
+									<option value="Scolarite">Scolarité</option>
+								</select><br>
+							</div>
 						</form>
-						<div class="social-login">
-							<span class="social-label">Or login with</span>
-							<ul class="socials">
-								<li><a href="#"><i
-										class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-								<li><a href="#"><i
-										class="display-flex-center zmdi zmdi-twitter"></i></a></li>
-								<li><a href="#"><i
-										class="display-flex-center zmdi zmdi-google"></i></a></li>
-							</ul>
-						</div>
+						<%
+						/*----- Affichage du message d'erreur (éventuel) -----*/
+						/*
+						 * Les EL permettent de simplifier cette écriture de variable
+						 * dans le HTML.
+						 */
+						String msg_erreur = (String) request.getAttribute("msg_erreur");
+
+						if (msg_erreur != null)
+							out.println("<p class=\"msg_erreur\">" + msg_erreur + "</p>");
+						%>
 					</div>
 				</div>
 			</div>

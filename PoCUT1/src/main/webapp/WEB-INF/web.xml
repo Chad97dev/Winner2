@@ -1,12 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
-  <display-name>PoCUT1</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-  </welcome-file-list>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	id="WebApp_ID" version="4.0">
+	<display-name>PoCUT1</display-name>
+
+
+	<servlet>
+		<servlet-name>Login</servlet-name>
+		<jsp-file>/login.jsp</jsp-file>
+	</servlet>
+
+	<servlet>
+		<servlet-name>AcceuilEtudiant</servlet-name>
+		<jsp-file>/acceuilEtudiant.jsp</jsp-file>
+	</servlet>
+
+	<servlet>
+		<servlet-name>AcceuilScolarite</servlet-name>
+		<jsp-file>/acceuilScolarite.jsp</jsp-file>
+	</servlet>
+
+	<servlet>
+		<servlet-name>EmploiDuTemps</servlet-name>
+		<jsp-file>/emploiDuTemps.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Login</servlet-name>
+		<url-pattern>/Login</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>AcceuilEtudiant</servlet-name>
+		<url-pattern>/AcceuilEtudiant</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>EmploiDuTemps</servlet-name>
+		<url-pattern>/EmploiDuTemps</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>AcceuilScolarite</servlet-name>
+		<url-pattern>/AcceuilScolarite</url-pattern>
+	</servlet-mapping>
+
+
+	<welcome-file-list>
+		<welcome-file>Login</welcome-file>
+	</welcome-file-list>
 </web-app>
+
+	
