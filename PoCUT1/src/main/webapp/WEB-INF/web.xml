@@ -25,6 +25,16 @@
 		<servlet-name>EmploiDuTemps</servlet-name>
 		<jsp-file>/emploiDuTemps.jsp</jsp-file>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>FicheAppel</servlet-name>
+		<jsp-file>/ficheAppel.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>FicheAppel</servlet-name>
+		<url-pattern>/FicheAppel</url-pattern>
+	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>

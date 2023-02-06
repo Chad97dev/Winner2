@@ -19,40 +19,40 @@ import metier.User;
 public class CtrlConnexion extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String type = request.getParameter("type");
 		String mail = request.getParameter("username");
 		String PWD = request.getParameter("password");
+		String type;
 
 		try {
+			type = Bd.verifTypeUser(mail, PWD);
 			User utilisateur = Bd.verifConnexion(type, mail, PWD);
-			if(utilisateur.getConnexion() == true) {
+			if (!type.equals("false")){
 				HttpSession session = request.getSession();
 				session.setAttribute("email", mail);
-				session.setAttribute("nom", utilisateur.getNom());
-				session.setAttribute("prenom", utilisateur.getPrenom());
+				session.setAttribute("numU", utilisateur.getNumU());
+				session.setAttribute("nom", utilisateur.getNomU());
+				session.setAttribute("typeU", utilisateur.getTypeU());
+				session.setAttribute("prenom", utilisateur.getPrenomU());
+				
 				switch (type)
 				{
 				case "Etudiant":
 					request.getRequestDispatcher("AcceuilEtudiant").forward(request, response);
 					break;
-
 				case "Enseignant":
 					request.getRequestDispatcher("EmploiDuTemps").forward(request, response);
 					break;
 				case "Scolarite":
 					request.getRequestDispatcher("AcceuilScolarite").forward(request, response);
 					break;
-				}
-			}
+				}}
 			else {
-				request.setAttribute("msg_erreur", "Mot de passe ou identifiant incorrect");
-				request.getRequestDispatcher("Login").forward(request, response);
+			    request.setAttribute("msg_erreur", "Mot de passe ou identifiant incorrect");
+			    request.getRequestDispatcher("Login").forward(request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-
 	}
 
 

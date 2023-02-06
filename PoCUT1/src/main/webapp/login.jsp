@@ -46,13 +46,6 @@
 								<input type="submit" name="signin" id="signin"
 									class="form-submit" value="Log in" />
 							</div>
-							<div>
-								Type:<select name="type">
-									<option value="Etudiant">Etudiant</option>
-									<option value="Enseignant">Enseignant</option>
-									<option value="Scolarite">Scolarité</option>
-								</select><br>
-							</div>
 						</form>
 						<%
 						/*----- Affichage du message d'erreur (éventuel) -----*/
