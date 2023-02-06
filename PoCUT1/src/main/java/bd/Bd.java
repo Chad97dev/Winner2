@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import metier.Justif;
 import metier.User;
 
 public class Bd {
@@ -67,11 +68,13 @@ public class Bd {
 	public static void main(String[] args) {
 		try {
 			Bd.connexion();
-			System.out.println("chargement du pilote réussi");
+			/*System.out.println("chargement du pilote réussi");
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve"));
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getNom());
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getPrenom());
-			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getConnexion());
+			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getConnexion());*/
+			ArrayList<Justif> liste = Bd.listerJustif();
+			System.out.println(liste);
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -118,4 +121,33 @@ public class Bd {
 			throw new Exception("Exception Bd.verifConnexion - Verification connexion - " + sqle.getMessage());
 		}
 	}
+	
+		public static ArrayList<Justif> listerJustif() throws Exception{
+			
+			String sql = "SELECT * FROM Participer WHERE  EtatEtu ='Absent Injustifié' ";
+			
+			ArrayList<Justif> liste = new ArrayList<>();
+			
+			try(PreparedStatement st = cx.prepareStatement(sql))
+			  {
+				try (ResultSet rs = st.executeQuery())
+	                { 
+		             while(rs.next())
+		              {
+			            Justif j = new Justif(rs.getLong("NumE"), rs.getLong("NumSE"),rs.getString("EtatEtu"),rs.getBlob("Justificatif"));
+			            liste.add(j);
+		                }
+		
+		                return liste;
+	                    }
+				        }
+				
+				catch(SQLException sqle) {
+					throw new Exception("Exception bd.listerJustif() -  Lecture des messages - "+ sqle.getMessage());
+			       }
+		
+		}
+	
+	
+	
 }
