@@ -1,5 +1,5 @@
 <%@page import="metier.Justif" %>
-<%@page import="java.util.ArrayList" %>
+<%@page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -13,17 +13,21 @@
      <table>
      	<tr>
      	    <th>Numero Etudiant</th>
-     	    <th>seance</th>
-     	    <th>Etat</th>
+     	    <th>Nom </th>
+     	    <th>Prenom</th>
+     	    <th>Date seance</th>
+     	    <th>Etat absence</th>
      	    <th>Justificatif</th>
      	</tr>
         <%
-        	ArrayList<Justif> liste = (ArrayList<Justif>) request.getAttribute("liste");
+        	List<Justif> liste = (List<Justif>) request.getAttribute("liste");
         	for(Justif justif : liste){
         %>
           <tr>
            	  <td><%= justif.getNumE() %></td>
-           	  <td><%= justif.getNumSe()%></td>
+           	  <td><%= justif.getNomE()%></td>
+           	  <td><%= justif.getPrenomE() %></td>
+           	  <td><%= justif.getDateSe() %></td>
            	  <td><%= justif.getEtatE() %></td>
            	  <td><%= justif.getDoc() %></td>
           </tr>

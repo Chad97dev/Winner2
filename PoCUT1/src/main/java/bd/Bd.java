@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import metier.Justif;
 import metier.User;
@@ -73,7 +74,7 @@ public class Bd {
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getNom());
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getPrenom());
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getConnexion());*/
-			ArrayList<Justif> liste = Bd.listerJustif();
+			List<Justif> liste = Bd.listerJustif();
 			System.out.println(liste);
 		}
 		catch(Exception e) {
@@ -122,9 +123,9 @@ public class Bd {
 		}
 	}
 	
-		public static ArrayList<Justif> listerJustif() throws Exception{
+		public static List<Justif> listerJustif() throws Exception{
 			
-			String sql = "SELECT * FROM Participer WHERE  EtatEtu ='Absent Injustifié' ";
+			String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.Justificatif  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent Injustifié'";
 			
 			ArrayList<Justif> liste = new ArrayList<>();
 			
@@ -134,7 +135,7 @@ public class Bd {
 	                { 
 		             while(rs.next())
 		              {
-			            Justif j = new Justif(rs.getLong("NumE"), rs.getLong("NumSE"),rs.getString("EtatEtu"),rs.getBlob("Justificatif"));
+			            Justif j = new Justif(rs.getLong(1), rs.getString(2),rs.getString(3),rs.getDate(4),rs.getString(5),rs.getBlob(6));
 			            liste.add(j);
 		                }
 		

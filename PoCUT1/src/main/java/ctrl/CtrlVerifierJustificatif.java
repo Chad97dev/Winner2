@@ -2,6 +2,7 @@ package ctrl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,11 +31,11 @@ public class CtrlVerifierJustificatif extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String test = request.getParameter("test");
-		ArrayList<Justif> liste = new ArrayList<>();
-		if (test == "test") {
+		
+		
 			try{
-				liste = Bd.listerJustif();
+				Bd.connexion();
+				List<Justif> liste =  Bd.listerJustif();
 				if(liste.isEmpty()) {
 					request.setAttribute("reponse", "la liste est vide");
 					request.getRequestDispatcher("verifierJustificatif").forward(request, response);
@@ -48,7 +49,7 @@ public class CtrlVerifierJustificatif extends HttpServlet {
 				request.setAttribute("msg_info", e.getMessage());
 				request.getRequestDispatcher("verifierJustificatif").forward(request, response);
 			}
-		}
+		
 	}
 
 	
