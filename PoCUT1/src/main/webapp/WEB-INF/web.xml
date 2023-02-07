@@ -30,6 +30,16 @@
 		<servlet-name>FicheAppel</servlet-name>
 		<jsp-file>/ficheAppel.jsp</jsp-file>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>ListeEtudiant</servlet-name>
+		<jsp-file>/listeEtudiant.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ListeEtudiant</servlet-name>
+		<url-pattern>/ListeEtudiant</url-pattern>
+	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>FicheAppel</servlet-name>

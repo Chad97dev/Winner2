@@ -23,7 +23,7 @@ public class ctrlEDT extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 
-		String numE = (String) session.getAttribute("numU");
+		int numE = (int) session.getAttribute("numU");
 		String numSemaine = request.getParameter("numSemaine");
 		response.setContentType("application/xml;charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
@@ -34,9 +34,10 @@ public class ctrlEDT extends HttpServlet {
 			out.println("<liste_seances>");
 			/*----- Récupération des paramètres -----*/
 			try {
-				HashMap<Cours, Seance> seances = Bd.edt(numE, numSemaine);
+				HashMap<Cours, Seance> seances = Bd.edt(numE+ "", numSemaine);
 				for (Entry<Cours, Seance> s : seances.entrySet()) {
 					out.println("<seance>" + s.getValue().getDateSeance()+ "  " + s.getValue().getHeureDebutSeance() + " " + s.getValue().getHeureFinSeance() + "  " + s.getKey().getNomCours() + "  " + s.getKey().getSalleCours()+ "</seance>");
+					out.println("<numSeance>" + s.getValue().getNumSeance()+ "</numSeance>");
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

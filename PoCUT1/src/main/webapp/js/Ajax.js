@@ -21,11 +21,13 @@
 			// Elément html que l'on va mettre à jour.
 			var xmlDoc = xhr.responseXML;
         	var seances = xmlDoc.getElementsByTagName("seance");
+        	var numSeances = xmlDoc.getElementsByTagName("numSeance");
         	var elt = document.getElementById("seances");
         	var c = "<ul> "
         	for (var i = 0; i < seances.length; i++) {
-            	c = c + "<li><a href=>" + seances[i].textContent + "</a></li>";
+            	c = c + "<li><a href=CtrlFicheAppel?numS=" + numSeances[i].textContent +">" + seances[i].textContent + "</a><br><a href=CtrlListeEtudiants?numS=" + numSeances[i].textContent +">Liste Etudiant</a></li>";
         	}
+        	
             elt.innerHTML = c + "</ul>";
 			}
 		};

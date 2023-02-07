@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import metier.Cours;
+import metier.Etudiant;
 import metier.Seance;
 import metier.User;
 
@@ -79,6 +80,11 @@ public class Bd {
 			System.out.println(Bd.verifConnexion(type, "raphael.bour@ut-capitole.fr","raphaela").getConnexion());
 			System.out.println("-------------------------------------------------------------------------------------------");
 			System.out.println(Bd.verifTypeUser("raphael.bour@ut-capitole.fr","raphaela"));
+			System.out.println("-------------------------------------------------------------------------------------------");
+			for(Etudiant e : Bd.listeEtudiant("1")) {
+				System.out.println("numE : " + e.getNumU() + " NomE : " + e.getNomU() + " PrenomE : " + e.getPrenomU() + " TypeU : " + e.getTypeU() + " Mail : " + e.getMailU() + " connexion : " + e.getConnexion() + " TypeE : " + e.getTypeE() + " numTel : " + e.getNumTel() + " adresse : " + e.getAdresse());
+			}
+
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -167,4 +173,61 @@ public class Bd {
 		}
 		return seances;
 	}
+
+	//Methode qui retourne la liste des etudiants participant à une séance de cours
+
+	public static ArrayList<Etudiant> listeEtudiant(String numSeance) throws Exception {
+		ArrayList<Etudiant> listeEtudiants = new ArrayList<>();
+		if(cx==null) {
+			Bd.connexion();
+		}
+		String query = "SELECT E.* FROM Etudiant E, Participer P, Seance S, Enseignant EN WHERE E.NumE = P.NumE AND P.NumSE = S.NumSE AND S.NumEN = EN.NumEN AND S.NumSE=?";
+
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setString(1, numSeance);
+			try(ResultSet rs = st.executeQuery()){
+				while (rs.next()) {
+					listeEtudiants.add(new Etudiant(rs.getInt(1), rs.getString(2), rs.getString(3),"Etudiant", rs.getString(9), true , rs.getString(4),rs.getBlob(5), rs.getString(6), rs.getString(7)));
+				}
+			}
+		}catch(Exception sqle) {
+			throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
+		}
+		return listeEtudiants;	
+	}
+
+	public static byte[] getImageData(String numU) throws Exception {
+		if(cx==null) {
+			Bd.connexion();
+		}
+		String query = "SELECT PhotoLienE FROM Etudiant WHERE NumE=?";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setString(1, numU);
+			try(ResultSet rs = st.executeQuery()){
+				if(rs.next()) {
+					return rs.getBytes(1);
+				}
+				else {
+					return null;
+				}
+			}catch(Exception sqle) {
+				throw new Exception("Exception Bd.getImageData - afficher l'image - " + sqle.getMessage());
+			}
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
