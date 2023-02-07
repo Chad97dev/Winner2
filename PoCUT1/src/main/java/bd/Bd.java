@@ -125,7 +125,7 @@ public class Bd {
 	
 		public static List<Justif> listerJustif() throws Exception{
 			
-			String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.Justificatif  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent Injustifié'";
+			String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.Justificatif  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.Justificatif IS NOT NULL AND EtatJ IS NULL";
 			
 			ArrayList<Justif> liste = new ArrayList<>();
 			
