@@ -19,7 +19,6 @@ public class upload extends HttpServlet {
     private static final long serialVersionUID = 1L;
     /**
      * @see HttpServlet#HttpServlet()
-     
      */
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -29,13 +28,6 @@ public class upload extends HttpServlet {
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Récupérer le fichier envoyé via le formulaire d'upload
-    	/*InputStream inputStream = null;
-    	long fileSize = filePart.getSize();
-    	String fileContent = filePart.getContentType();
-        //Part filePart = request.getPart("file");
-        inputStream = filePart.getInputStream(); */
-
         // Connexion à la base de données
         Connection conn = null;
         PreparedStatement statement = null;

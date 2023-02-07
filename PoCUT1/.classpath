@@ -19,5 +19,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/mazho/.m2/repository/com/dropbox-core-sdk-3.0.5/dropbox-core-sdk-3.0.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mazho/Downloads/pdfbox-2.0.27.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mazho/Downloads/fontbox-2.0.27.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

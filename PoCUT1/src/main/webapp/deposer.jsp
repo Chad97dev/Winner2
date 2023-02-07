@@ -7,10 +7,11 @@
 <title>Formulaire d'upload de fichier</title>
 </head>
 <body>
-	<h2>Formulaire d'upload de fichier</h2>
+	<h2>Ajouter un justificatif</h2>
 	<form action="upload" method="post" enctype="multipart/form-data">
 		<input type="file" name="file"><br><br>
-		<input type="submit" value="Télécharger">
+		<input type="submit" value="Déposer">
 	</form>
+	<a href="ctrlTest">click here for download one pdf</a>
 </body>
 </html>

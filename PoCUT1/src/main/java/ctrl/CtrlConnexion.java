@@ -1,6 +1,9 @@
 package ctrl;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 
 import bd.Bd;
+import metier.Seance;
 import metier.User;
 
 /**
@@ -33,9 +37,12 @@ public class CtrlConnexion extends HttpServlet {
 				session.setAttribute("nom", utilisateur.getNomU());
 				session.setAttribute("typeU", utilisateur.getTypeU());
 				session.setAttribute("prenom", utilisateur.getPrenomU());
+				session.setAttribute("pwd", PWD);
 				switch (type)
 				{
 				case "Etudiant":
+					HashMap<Seance, String> listeSeances =  Bd.listeSeance(utilisateur.getNumU());
+					session.setAttribute("listeSeances", listeSeances);
 					request.getRequestDispatcher("AcceuilEtudiant").forward(request, response);
 					break;
 				case "Enseignant":

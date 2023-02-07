@@ -29,6 +29,26 @@
 		<servlet-name>FicheAppel</servlet-name>
 		<jsp-file>/ficheAppel.jsp</jsp-file>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>Profil</servlet-name>
+		<jsp-file>/profil.jsp</jsp-file>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>CfrmDepot</servlet-name>
+		<jsp-file>/cfrmDepot.jsp</jsp-file>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>Deposer</servlet-name>
+		<jsp-file>/deposer.jsp</jsp-file>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>Test</servlet-name>
+		<jsp-file>/test.jsp</jsp-file>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>FicheAppel</servlet-name>
@@ -53,6 +73,26 @@
 	<servlet-mapping>
 		<servlet-name>AcceuilScolarite</servlet-name>
 		<url-pattern>/AcceuilScolarite</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Profil</servlet-name>
+		<url-pattern>/Profil</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>CfrmDepot</servlet-name>
+		<url-pattern>/CfrmDepot</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Deposer</servlet-name>
+		<url-pattern>/Deposer</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Test</servlet-name>
+		<url-pattern>/Test</url-pattern>
 	</servlet-mapping>
 
 

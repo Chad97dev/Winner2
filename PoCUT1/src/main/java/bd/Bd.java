@@ -111,7 +111,7 @@ public class Bd {
         }
 	}
 	//Zone de test 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		try {
 			Bd.connexion();
 			System.out.println("chargement du pilote réussi");
@@ -128,6 +128,9 @@ public class Bd {
 		catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
+		System.out.println("liste seances");
+		//System.out.println(Bd.listeSeance());
+		
 	}
 	
 	public static Blob afficherFichier() throws Exception {
@@ -245,6 +248,120 @@ public class Bd {
 			throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
 		}
 		return seances;
+	}
+
+	public static HashMap<Seance, String> listeSeance(Integer numU) throws Exception {
+		HashMap<Seance, String> listeSeances = new HashMap<>();
+		//Integer numU = 22006489;
+		if(cx==null) {
+			Bd.connexion();
+		}
+		String query = "SELECT s.NumSE, s.DateSE, s.HeureDebutSE, s.HeureFinSE, s.NumeroSemaine, s.NumCO, c.NomCO, c.SalleCO,  p.EtatJ FROM Participer p, Seance s, Cours c WHERE p.EtatEtu = 'Absent' AND p.NumE=? AND p.NumSE = s.NumSE AND c.numCO = s.NumCO";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setInt(1, numU);
+			try(ResultSet rs = st.executeQuery()){
+				Boolean existe = false;
+				while(rs.next()) {
+					existe = true;
+					Seance se = new Seance(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getTime(4), rs.getInt(5));
+					se.setCours(new Cours(rs.getInt(6), rs.getString(7), rs.getString(8)));
+					listeSeances.put(se, rs.getString(9));
+				}
+				if(!existe) {
+					listeSeances = null;
+				}
+			}
+		}catch(Exception sqle){
+			throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
+		}
+		return listeSeances;
+		
+	}
+	
+	//méthode pour obtenir formation d'un étudiant
+	public static String getFormation(Integer numU) throws Exception {
+		String formation = null;
+		//ouverture de connexion
+		if(cx==null) {
+			Bd.connexion();
+		}
+		
+		//requête
+		String query = "SELECT f.NomF FROM Formation f, Etudiant e WHERE e.NumF=f.NumF AND e.NumE=?";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setInt(1, numU);
+			try(ResultSet rs = st.executeQuery()){
+				while(rs.next()) {
+					formation = rs.getString(1);
+				}
+			}catch(Exception sqle){
+				throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
+			}
+		return formation;
 	}}
 	
+	//méthode pour obtenir numTele d'un étudiant
+	public static String getTele(Integer numU) throws Exception {
+		String tele = null;
+		//ouverture de connexion
+		if(cx==null) {
+			Bd.connexion();
+		}
+		
+		//requête
+		String query = "SELECT NumTel FROM Etudiant WHERE NumE=?";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setInt(1, numU);
+			try(ResultSet rs = st.executeQuery()){
+				while(rs.next()) {
+					tele = rs.getString(1);
+				}
+			}catch(Exception sqle){
+				throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
+			}
+		return tele;
+	}}
 	
+	//méthode pour obtenir numTele d'un étudiant
+	public static String getAdresse(Integer numU) throws Exception {
+		String adresse = null;
+		//ouverture de connexion
+		if(cx==null) {
+			Bd.connexion();
+		}
+		
+		//requête
+		String query = "SELECT 	Adresse FROM Etudiant WHERE NumE=?";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setInt(1, numU);
+			try(ResultSet rs = st.executeQuery()){
+				while(rs.next()) {
+					adresse = rs.getString(1);
+				}
+			}catch(Exception sqle){
+				throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
+			}
+		return adresse;
+	}}
+
+	//méthode test
+	public static Blob getJus() throws Exception {
+		if(cx==null) {
+			Bd.connexion();
+		}
+		//requête
+		String query = "SELECT Justificatif FROM Participer WHERE NumE=21915858 AND NumSE=2";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			try(ResultSet rs = st.executeQuery()){
+				while(rs.next()) {
+					Blob j = rs.getBlob(1);
+					return j;
+				}
+			}catch(Exception sqle){
+				throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
+			}
+		return null;
+	}
+	}
+
+}

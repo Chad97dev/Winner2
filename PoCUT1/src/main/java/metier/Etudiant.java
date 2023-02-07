@@ -1,19 +1,21 @@
 package metier;
 
+import java.util.ArrayList;
 
-	public class Etudiant {
+public class Etudiant {
 		
 	    private String NomE;
 	    private String PrenomE;
 	    private int NumE;
+	    private ArrayList<Seance> listeSeances;
 
 	    public Etudiant(int NumE, String NomE, String PrenomE) {
 	        this.NumE = NumE;
 	        this.NomE = NomE;
 	        this.PrenomE = PrenomE;
 	    }
-
-	    public int getNumE() {
+	   
+		public int getNumE() {
 	        return NumE;
 	    }
 	    public void setNumE(int NumE) {
@@ -31,5 +33,11 @@ package metier;
 	    public void setPrenomE(String PrenomE) {
 	        this.PrenomE = PrenomE;
 	    }
+	    public ArrayList<Seance> getListeSeances() {
+			return listeSeances;
+		}
+		public void setListeSeances(ArrayList<Seance> listeSeances) {
+			this.listeSeances = listeSeances;
+		}
 
 	}

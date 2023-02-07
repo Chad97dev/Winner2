@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -40,8 +43,23 @@ public class FileUploadServlet extends HttpServlet {
     File file = new File(uploads, fileName);
 
     Files.copy(fileContent, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
+    //récupérer le lien du fichier
+    String lien = file.getAbsolutePath();
+    System.out.println(lien);
+    //inserer le lien dans la base de données
+    Connection conn;
+    String sql = "UPDATE Participer SET LienJ=? WHERE NumE=22006489 AND NumSE=2";
+    try {
+        conn = bd.Bd.connection();
+            System.out.println("conn ok" + conn);
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, lien);
+        ps.executeUpdate();
     response.setContentType("text/html");
     response.getWriter().println("File uploaded successfully: " + fileName);
+  }catch (SQLException e) {
+      e.printStackTrace();
+  }catch(Exception e){
+      e.printStackTrace();
   }
-}
+}}

@@ -11,9 +11,9 @@ public class Seance {
 	Time heureDebutSeance;
 	Time heureFinSeance;
 	int numeroSemaine;
-	
+	Cours cours;
 	//Constructor
-	
+
 	public Seance(int numSeance, Date dateSeance, Time heureDebutSeance, Time heureFinSeance, int numeroSemaine) {
 		this.numSeance = numSeance;
 		this.dateSeance = dateSeance;
@@ -64,6 +64,13 @@ public class Seance {
 		this.numeroSemaine = numeroSemaine;
 	}
 
+	public Cours getCours() {
+		return cours;
+	}
+
+	public void setCours(Cours cours) {
+		this.cours = cours;
+	}
 
 	
 	
