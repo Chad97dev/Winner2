@@ -7,18 +7,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import metier.Cours;
+import metier.Seance;
 import metier.User;
 
 public class Bd {
-	
-	
+
+
 	private static String URL = "jdbc:mysql://localhost:3307/db_21915858"; 
 	private static String LOGIN = "21915858";
 	private static String PWD = "U02KG0";
-	
+
 	private static Connection cx;
-	
+
 	// methode connexion
 	public static void connexion() throws Exception{
 		// chargement du pilote
@@ -64,7 +67,7 @@ public class Bd {
 		if(cx==null) {
 			Bd.connexion();
 		}
-		
+
 		String query = "SELECT * FROM Enseignant";
 		try(PreparedStatement st = cx.prepareStatement(query)){
 			try(ResultSet rs = st.executeQuery()){
@@ -76,13 +79,13 @@ public class Bd {
 				System.out.println("--------result du test--------");
 				while (rs.next()) {
 					System.out.println("Nom Enseignant : " + rs.getString("NomEN"));
-					
+
 				}
 			}
 		}catch(Exception sqle) {
 			throw new Exception("Exception Bd.afficherTest - afficher des messages - " + sqle.getMessage());
 		}
-		
+
 	}
 	
 	public static void upload(InputStream filecontent) throws Exception {
@@ -106,6 +109,25 @@ public class Bd {
             // Fermer la connexion et la requête
             // DatabaseUtils.close(conn, statement, null);
         }
+
+	//Zone de test 
+	public static void main(String[] args) {
+		try {
+			Bd.connexion();
+			System.out.println("chargement du pilote réussi");
+			String type = Bd.verifTypeUser("raphael.bour@ut-capitole.fr","raphael");
+			System.out.println(Bd.verifConnexion(type,"raphael.bour@ut-capitole.fr","raphaela"));
+			System.out.println(Bd.verifConnexion(type, "raphael.bour@ut-capitole.fr","raphaela").getNomU());
+			System.out.println(Bd.verifConnexion(type, "raphael.bour@ut-capitole.fr","raphaela").getPrenomU());
+			System.out.println(Bd.verifConnexion(type, "raphael.bour@ut-capitole.fr","raphaela").getMailU());
+			System.out.println(Bd.verifConnexion(type, "raphael.bour@ut-capitole.fr","raphaela").getTypeU());
+			System.out.println(Bd.verifConnexion(type, "raphael.bour@ut-capitole.fr","raphaela").getConnexion());
+			System.out.println("-------------------------------------------------------------------------------------------");
+			System.out.println(Bd.verifTypeUser("raphael.bour@ut-capitole.fr","raphaela"));
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	public static Blob afficherFichier() throws Exception {
@@ -143,46 +165,86 @@ public class Bd {
 
 
 	//Méthodes 
-	
-	//Méthode de verifications de connexion utilisateurs
-	public static User verifConnexion(String type ,String mail, String mdp) throws Exception {
-		boolean res = false;
+
+	//Méthode de verifications du type d'utilsateur 
+	public static String verifTypeUser(String mail, String mdp) throws Exception {
+		String res = "false";
 		if(cx==null) {
 			Bd.connexion();
 		} 
-		
-		
-		
-		String query = "";
-		switch (type)
-		{
-		case "Etudiant":
-			query = "SELECT NomE, PrenomE FROM Etudiant WHERE EmailE=? AND MotPasseE=?";
-			break;
 
-		case "Enseignant":
-			query = "SELECT NomEN, PrenomEN FROM Enseignant WHERE EmailEN=? AND MotPasseEN=?";
-			break;
-		case "Scolarite":
-			query = "SELECT NomRespS, PrenomRespoS FROM Scolarite WHERE EmailS=? AND MotPasseS=?";
-			break;
-		}	
+		String query = "SELECT C.Type FROM Connexion C WHERE C.Email=? AND C.MotDePasse=?";
 		try(PreparedStatement st = cx.prepareStatement(query)){
 			st.setString(1, mail);
 			st.setString(2, mdp);
-			
+
 			try(ResultSet rs = st.executeQuery()){
 				if(rs.next()) {
-					res = true;
-					return new User(rs.getString(1), rs.getString(2), res);
+					res = rs.getString(1);
 				}
-				else {
-					return new User(null, null, false);
+			}
+		}catch(Exception sqle) {
+			throw new Exception("Exception Bd.verifTypeUser - Verification type user - " + sqle.getMessage());
+		}
+		return res;
+	}
+
+	public static User verifConnexion(String type, String mail, String mdp) throws Exception {
+		String res = "false";
+		if(cx==null) {
+			Bd.connexion();
+		} 
+		String query = "";
+
+		switch(type){
+		case "Etudiant" : 
+			query = "SELECT E.NumE, E.NomE, E.PrenomE, C.Type, C.Email FROM Connexion C, Etudiant E WHERE C.Email = E.EmailE AND C.Email=? AND C.MotDePasse=?";
+			break;
+		case "Enseignant" :
+			query = "SELECT E.NumEN, E.NomEN, E.PrenomEN, C.Type, C.Email FROM Connexion C, Enseignant E WHERE C.Email = E.EmailEn AND C.Email=? AND C.MotDePasse=?";
+			break;
+		case "Scolarite" : 
+			query = "SELECT S.NumS, S.NomRespS, S.PrenomRespoS, C.Type, C.Email FROM Connexion C, Scolarite S WHERE C.Email = S.EmailS AND C.Email=? AND C.MotDePasse=?";
+			break;
+		case "false" :
+			query = "SELECT C.Type FROM Connexion C WHERE C.Email=? AND C.MotDePasse=?";
+		}
+
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setString(1, mail);
+			st.setString(2, mdp);
+
+			try(ResultSet rs = st.executeQuery()){
+				if(rs.next()) {
+					return new User(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5), true); 
 				}
+				else return new User(0,null,null,null,null,false); 
 			}
 		}catch(Exception sqle) {
 			throw new Exception("Exception Bd.verifConnexion - Verification connexion - " + sqle.getMessage());
 		}
+
+	}
+
+	//Méthode qui retourne l'emploi du temps d'un prof
+	public static HashMap<Cours, Seance> edt(String numE, String numSemaine) throws Exception {
+		HashMap<Cours, Seance> seances = new HashMap<>();
+		if(cx==null) {
+			Bd.connexion();
+		}
+		String query = "SELECT S.NumSE, S.DateSE, S.HeureDebutSE, S.HeureFinSE, S.NumeroSemaine, C.NumCO, C.NomCO, C.SalleCO FROM Seance S, Enseignant E, Cours C WHERE E.NumEN = S.NumEN AND C.NumCO = S.NumCO AND E.NumEN=? AND S.NumeroSemaine =? ORDER BY S.DateSE DESC, S.HeureFinSE DESC";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setString(1, numE);
+			st.setString(2, numSemaine);
+			try(ResultSet rs = st.executeQuery()){
+				while (rs.next()) {
+					seances.put(new Cours(rs.getInt(6),rs.getString(7), rs.getString(8)),new Seance(rs.getInt(1),rs.getDate(2),rs.getTime(3),rs.getTime(4),rs.getInt(5)));
+				}
+			}
+		}catch(Exception sqle) {
+			throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
+		}
+		return seances;
 	}
 	
 	
