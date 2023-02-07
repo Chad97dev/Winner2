@@ -6,11 +6,23 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Justificatifs à vérifier</title>
+<link rel="stylesheet"
+	href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+<!-- Main css -->
+<link rel="stylesheet" href="css/style.css">
+<style>
+body {}
+h1   {}
+p    {}
+#listeJustificatif {margin-left:300px;}
+</style>
 </head>
 <body>
 
-     <table>
+<div id="listeJustificatif">
+     <table border="1">
      	<tr>
      	    <th>Numero Etudiant</th>
      	    <th>Nom </th>
@@ -29,11 +41,12 @@
            	  <td><%= justif.getPrenomE() %></td>
            	  <td><%= justif.getDateSe() %></td>
            	  <td><%= justif.getEtatE() %></td>
-           	  <td><%= justif.getDoc() %></td>
+           	  <td><a href="<%= justif.getDoc() %>">Justificatif</a></td>
           </tr>
           <%
         	}
           %>
      </table>
+</div>    
 </body>
 </html>

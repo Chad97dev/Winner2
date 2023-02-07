@@ -3,7 +3,7 @@ package metier;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Blob;
+//import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -16,9 +16,9 @@ public class Justif {
 	private String prenomE;
 	private Date dateSe;
 	private String etatE;
-    private Blob doc;
+    private String doc;
     
-	public Justif(long numE, String nomE, String prenomE, Date dateSe, String etatE, Blob doc) {
+	public Justif(long numE, String nomE, String prenomE, Date dateSe, String etatE, String doc) {
 		super();
 		this.numE = numE;
 		this.nomE = nomE;
@@ -68,20 +68,11 @@ public class Justif {
 		this.etatE = etatE;
 	}
 
-	public Blob getDoc() {
+	public String getDoc() {
 		return doc;
-	}
-	
-	public int getConvertDoc() throws IOException, SQLException {
-		Blob blobPdf = this.doc;
-		File outputFile = new File("Servers/Tomcat v9.0 Server at localhost (3)-config");
-		FileOutputStream fout = new FileOutputStream(outputFile);
-		
-		return IOUtils.copy(blobPdf.getBinaryStream(), fout);
-	}
-	
+	}	
 
-	public void setDoc(Blob doc) {
+	public void setDoc(String doc) {
 		this.doc = doc;
 	}
 
