@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -50,14 +52,14 @@
 								Type:<select name="type">
 									<option value="Etudiant">Etudiant</option>
 									<option value="Enseignant">Enseignant</option>
-									<option value="Scolarite">Scolarité</option>
+									<option value="Scolarite">ScolaritÃ©</option>
 								</select><br>
 							</div>
 						</form>
 						<%
-						/*----- Affichage du message d'erreur (éventuel) -----*/
+						/*----- Affichage du message d'erreur (Ã©ventuel) -----*/
 						/*
-						 * Les EL permettent de simplifier cette écriture de variable
+						 * Les EL permettent de simplifier cette Ã©criture de variable
 						 * dans le HTML.
 						 */
 						String msg_erreur = (String) request.getAttribute("msg_erreur");

@@ -1,4 +1,6 @@
 package bd;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -30,10 +32,30 @@ public class Bd {
 		//ouverture de la connexion à la BD
 		try {
 			cx = DriverManager.getConnection(URL, LOGIN, PWD);
+			System.out.println("conn ok");
 		}
 		catch (SQLException sqle) {
 			throw new Exception("Erreur Bd.connexion() - ouverture de la connexion" + sqle.getMessage());
 		}
+	}
+	
+	public static Connection connection() throws Exception{
+		// chargement du pilote
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// 
+			throw new Exception("Erreur Bd.connexion() - Chargement du pilote" + e.getMessage());
+		}
+		//ouverture de la connexion à la BD
+		try {
+			cx = DriverManager.getConnection(URL, LOGIN, PWD);
+		}
+		catch (SQLException sqle) {
+			throw new Exception("Erreur Bd.connexion() - ouverture de la connexion" + sqle.getMessage());
+		}
+		return cx;
 	}
 	
 	
@@ -63,20 +85,62 @@ public class Bd {
 		
 	}
 	
-	//Zone de test 
-	public static void main(String[] args) {
-		try {
-			Bd.connexion();
-			System.out.println("chargement du pilote réussi");
-			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve"));
-			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getNom());
-			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getPrenom());
-			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getConnexion());
-		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
+	public static void upload(InputStream filecontent) throws Exception {
+		// Ouvrir une connexion à la base de données
+        if(cx==null) {
+        	Bd.connexion();
+        }
+        
+        try {
+            // Préparer une requête SQL pour enregistrer le fichier dans la base de données
+            String sql = "INSERT INTO `Justificatif`(`Lien`, `NumE`) VALUES (?, 21707106)";
+            PreparedStatement st = cx.prepareStatement(sql);
+            // statement = conn.prepareStatement(sql);
+            st.setBlob(1, filecontent);
+
+            // Exécuter la requête pour enregistrer le fichier
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Fermer la connexion et la requête
+            // DatabaseUtils.close(conn, statement, null);
+        }
 	}
+	
+	public static Blob afficherFichier() throws Exception {
+		// Ouvrir une connexion à la base de données
+        if(cx==null) {
+        	Bd.connexion();
+        }
+        
+        try {
+            // Préparer une requête SQL pour enregistrer le fichier dans la base de données
+            String sql = "SELECT Justificatif FROM `Participer` WHERE NumE=21915858 AND NumSE=2";
+            PreparedStatement st = cx.prepareStatement(sql);
+            // statement = conn.prepareStatement(sql);
+            try {
+            	ResultSet rs = st.executeQuery();
+            	while (rs.next()) {
+					Blob content = rs.getBlob("Justificatif");
+					return content;
+				}
+            }catch (SQLException sqle) //deux try utiliser le même catch
+			{ 
+			throw new Exception ("Exception Bd.afficherFichier() - Lecture des messages - " + sqle.getMessage());
+			}
+            // Exécuter la requête pour enregistrer le fichier
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Fermer la connexion et la requête
+            // DatabaseUtils.close(conn, statement, null);
+        }
+        return null;
+	}
+	
+
 
 	//Méthodes 
 	
@@ -86,6 +150,8 @@ public class Bd {
 		if(cx==null) {
 			Bd.connexion();
 		} 
+		
+		
 		
 		String query = "";
 		switch (type)
@@ -116,6 +182,22 @@ public class Bd {
 			}
 		}catch(Exception sqle) {
 			throw new Exception("Exception Bd.verifConnexion - Verification connexion - " + sqle.getMessage());
+		}
+	}
+	
+	
+	//Zone de test 
+	public static void main(String[] args) {
+		try {
+			Bd.connexion();
+			System.out.println("chargement du pilote réussi");
+			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve"));
+			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getNom());
+			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getPrenom());
+			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getConnexion());
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }
