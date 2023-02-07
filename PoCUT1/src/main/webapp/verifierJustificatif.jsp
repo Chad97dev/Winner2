@@ -41,11 +41,12 @@ p    {}
            	  <td><%= justif.getPrenomE() %></td>
            	  <td><%= justif.getDateSe() %></td>
            	  <td><%= justif.getEtatE() %></td>
-           	  <td><a href="<%= justif.getDoc() %>">Justificatif</a></td>
+           	  <td><a href="<%=justif.getDoc()%>" download>Justificatif</a></td>
           </tr>
           <%
         	}
           %>
+          
      </table>
 </div>    
 </body>
