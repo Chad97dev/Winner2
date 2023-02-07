@@ -57,7 +57,7 @@
 
 
 	<welcome-file-list>
-		<welcome-file>/Etudiant.jsp</welcome-file>
+		<welcome-file>Login</welcome-file>
 	</welcome-file-list>
 </web-app>
 

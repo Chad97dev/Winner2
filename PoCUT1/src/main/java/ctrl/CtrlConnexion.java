@@ -33,7 +33,6 @@ public class CtrlConnexion extends HttpServlet {
 				session.setAttribute("nom", utilisateur.getNomU());
 				session.setAttribute("typeU", utilisateur.getTypeU());
 				session.setAttribute("prenom", utilisateur.getPrenomU());
-				
 				switch (type)
 				{
 				case "Etudiant":

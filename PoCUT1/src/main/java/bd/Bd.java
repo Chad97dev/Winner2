@@ -109,7 +109,7 @@ public class Bd {
             // Fermer la connexion et la requête
             // DatabaseUtils.close(conn, statement, null);
         }
-
+	}
 	//Zone de test 
 	public static void main(String[] args) {
 		try {
@@ -245,21 +245,6 @@ public class Bd {
 			throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
 		}
 		return seances;
-	}
+	}}
 	
 	
-	//Zone de test 
-	public static void main(String[] args) {
-		try {
-			Bd.connexion();
-			System.out.println("chargement du pilote réussi");
-			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve"));
-			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getNom());
-			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getPrenom());
-			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getConnexion());
-		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
-}
