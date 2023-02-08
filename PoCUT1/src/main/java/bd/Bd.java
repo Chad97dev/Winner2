@@ -1,4 +1,5 @@
 package bd;
+
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,9 +8,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import metier.Justif;
 import metier.User;
+
+import java.util.Properties;
+import javax.mail.*;  
+import javax.mail.internet.*;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.PasswordAuthentication;
+
 
 public class Bd {
 	
@@ -74,9 +84,10 @@ public class Bd {
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve"));
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getNom());
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getPrenom());
-			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getConnexion());*/
+			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getConnexion());
 			List<Justif> liste = Bd.listerJustif();
-			System.out.println(liste);
+			System.out.println(liste);*/
+			//Bd.envoyerMail();
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -173,5 +184,30 @@ public class Bd {
 		}
 		
 	}
+	
+	//Il faut les parametres de l'etudiant qui envoie son fichier
+		public static void envoyerMail(String user, String mdp) {
+		   Properties props = new Properties();
+		   props.put("mail.smtp.host", "smtp-mail.outlook.com");
+		   props.put("mail.smtp.auth", "true");
+		   props.put("mail.smtp.starttls.enable", "true");
+		   Authenticator auth = new Authenticator() {
+		      protected PasswordAuthentication getPasswordAuthentication() {
+		              return new PasswordAuthentication(user, mdp);
+		      }
+		    };
+		    Session session = Session.getInstance(props, auth);
+		    
+		    try {
+		     MimeMessage message = new MimeMessage(session);
+		     message.setFrom(new InternetAddress(user));
+		     message.addRecipient(Message.RecipientType.TO, new InternetAddress("genevieve.labrousse01@outlook.fr"));
+		     message.setSubject("Justificatif à valider");
+		     message.setText("L'etudiant X a deposé un justificatif pour validation.");
+		     
+		    Transport.send(message);
+		   
+		     } catch (MessagingException e) {e.printStackTrace();}
+		 }
 	
 }
