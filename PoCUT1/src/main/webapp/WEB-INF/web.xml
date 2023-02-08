@@ -4,7 +4,8 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
 	id="WebApp_ID" version="4.0">
 	<display-name>PoCUT1</display-name>
-	
+
+
 	<servlet>
 		<servlet-name>Login</servlet-name>
 		<jsp-file>/login.jsp</jsp-file>
@@ -26,48 +27,9 @@
 	</servlet>
 	
 	<servlet>
-		<servlet-name>FicheAppel</servlet-name>
-		<jsp-file>/ficheAppel.jsp</jsp-file>
+		<servlet-name>verifierJustificatif</servlet-name>
+		<jsp-file>/verifierJustificatif.jsp</jsp-file>
 	</servlet>
-	
-	<servlet>
-		<servlet-name>Profil</servlet-name>
-		<jsp-file>/profil.jsp</jsp-file>
-	</servlet>
-	
-	<servlet>
-		<servlet-name>CfrmDepot</servlet-name>
-		<jsp-file>/cfrmDepot.jsp</jsp-file>
-	</servlet>
-	
-	<servlet>
-		<servlet-name>Deposer</servlet-name>
-		<jsp-file>/deposer.jsp</jsp-file>
-	</servlet>
-	
-	<servlet>
-		<servlet-name>Test</servlet-name>
-		<jsp-file>/test.jsp</jsp-file>
-	</servlet>
-	
-	<servlet>
-		<servlet-name>OK</servlet-name>
-		<jsp-file>/okDeposer.jsp</jsp-file>
-	</servlet>
-	<servlet>
-		<servlet-name>ListeEtudiant</servlet-name>
-		<jsp-file>/listeEtudiant.jsp</jsp-file>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>ListeEtudiant</servlet-name>
-		<url-pattern>/ListeEtudiant</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>FicheAppel</servlet-name>
-		<url-pattern>/FicheAppel</url-pattern>
-	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
@@ -88,30 +50,10 @@
 		<servlet-name>AcceuilScolarite</servlet-name>
 		<url-pattern>/AcceuilScolarite</url-pattern>
 	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>Profil</servlet-name>
-		<url-pattern>/Profil</url-pattern>
-	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>CfrmDepot</servlet-name>
-		<url-pattern>/CfrmDepot</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>Deposer</servlet-name>
-		<url-pattern>/Deposer</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>Test</servlet-name>
-		<url-pattern>/Test</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>OK</servlet-name>
-		<url-pattern>/OK</url-pattern>
+		<servlet-name>verifierJustificatif</servlet-name>
+		<url-pattern>/verifierJustificatif</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
