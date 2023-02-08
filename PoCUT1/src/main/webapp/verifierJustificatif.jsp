@@ -33,6 +33,7 @@
      	</tr>
         <%
         	List<Justif> liste = (List<Justif>) request.getAttribute("liste");
+        if(liste != null){
         	for(Justif justif : liste){
         		String b = justif.getIdJ();
         %>
@@ -43,13 +44,14 @@
            	  <td><%= justif.getDateSe() %></td>
            	  <td><%= justif.getEtatE() %></td>
            	  <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td>
-           	  <td><a href="CtrlDecisionJustificatif?decision=valide&numE=<%= justif.getNumE() %>&numSE=<%= justif.getIdSe()%>"><input type="button" value="Valider"></a></td>
-           	  <td><a href="CtrlDecisionJustificatif?decision=invalide&numE=<%= justif.getNumE() %>&numSE=<%= justif.getIdSe()%>"><input type="button" value="Invalider"></a></td>
+           	  <td><a href="CtrlDecisionJustificatif?decision=Valide&numE=<%= justif.getNumE() %>&numSE=<%= justif.getIdSe()%>"><input type="button" value="Valider"></a></td>
+           	  <td><a href="CtrlDecisionJustificatif?decision=Invalide&numE=<%= justif.getNumE() %>&numSE=<%= justif.getIdSe()%>"><input type="button" value="Invalider"></a></td>
            	  <td></td>
           </tr>
           
           <%
         	}
+        }
           %>
      </table>
     

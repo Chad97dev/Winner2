@@ -212,12 +212,13 @@ public class Bd {
 		 }*/
 	
 	public static void validationJustificatif(String decision, long numE, long numSE) throws Exception {
-		
+		System.out.println(decision);
 		if(cx==null) {
 			Bd.connexion();
 		}
 		
-		if(decision == "valide") {
+		if(decision.equals("Valide")) {
+			
 			String sql = "UPDATE Participer SET EtatJ ='Valide' WHERE NumE=? AND NumSE=?";
 			try(PreparedStatement st = cx.prepareStatement(sql)){
 				st.setLong(1, numE);
@@ -226,7 +227,7 @@ public class Bd {
 				System.out.println(st);
 			}
 			
-		} else if(decision == "invalide") {
+		} else if(decision.equals("Invalide")) {
 			String sql = "UPDATE Participer SET EtatJ ='Invalide' WHERE NumE=? AND NumSE=?";
 			try(PreparedStatement st = cx.prepareStatement(sql)){
 				st.setLong(1, numE);
