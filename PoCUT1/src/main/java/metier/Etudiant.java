@@ -1,43 +1,69 @@
 package metier;
 
-import java.util.ArrayList;
+import java.sql.Blob;
 
-public class Etudiant {
-		
-	    private String NomE;
-	    private String PrenomE;
-	    private int NumE;
-	    private ArrayList<Seance> listeSeances;
+public class Etudiant extends User{
+	
+	
+	//Attribus 
+	String typeE;
+	Blob photoLienE;
+	String numTel;
+	String adresse;
+	private ArrayList<Seance> listeSeances;
+	
+	//Constructor 
+	
+	public Etudiant(int numU, String nomU, String prenomU, String typeU, String mailU, Boolean connexion, String typeE,
+			Blob photoLienE, String numTel, String adresse) {
+		super(numU, nomU, prenomU, typeU, mailU, connexion);
+		this.typeE = typeE;
+		this.photoLienE = photoLienE;
+		this.numTel = numTel;
+		this.adresse = adresse;
+	}
 
-	    public Etudiant(int NumE, String NomE, String PrenomE) {
-	        this.NumE = NumE;
-	        this.NomE = NomE;
-	        this.PrenomE = PrenomE;
-	    }
-	   
-		public int getNumE() {
-	        return NumE;
-	    }
-	    public void setNumE(int NumE) {
-	        this.NumE = NumE;
-	    }
-	    public String getNomE() {
-	        return NomE;
-	    }
-	    public void setNomE(String NomE) {
-	        this.NomE = NomE;
-	    }
-	    public String getPrenomE() {
-	        return PrenomE;
-	    }
-	    public void setPrenomE(String PrenomE) {
-	        this.PrenomE = PrenomE;
-	    }
-	    public ArrayList<Seance> getListeSeances() {
+	public String getTypeE() {
+		return typeE;
+	}
+
+	public void setTypeE(String typeE) {
+		this.typeE = typeE;
+	}
+
+	public Blob getPhotoLienE() {
+		return photoLienE;
+	}
+
+	public void setPhotoLienE(Blob photoLienE) {
+		this.photoLienE = photoLienE;
+	}
+
+	public String getNumTel() {
+		return numTel;
+	}
+
+	public void setNumTel(String numTel) {
+		this.numTel = numTel;
+	}
+
+	public String getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
+
+	public ArrayList<Seance> getListeSeances() {
 			return listeSeances;
 		}
-		public void setListeSeances(ArrayList<Seance> listeSeances) {
-			this.listeSeances = listeSeances;
-		}
-
+	public void setListeSeances(ArrayList<Seance> listeSeances) {
+		this.listeSeances = listeSeances;
 	}
+	
+	
+	
+
+
+}

@@ -10,8 +10,6 @@
 <title>Emploi du temps</title>
 </head>
 <body>
-	<h1>ACCEUIL PROF</h1>
-
 	<%
 	Calendar calendar = Calendar.getInstance();
 	int currentWeekNumber = calendar.get(Calendar.WEEK_OF_YEAR);
