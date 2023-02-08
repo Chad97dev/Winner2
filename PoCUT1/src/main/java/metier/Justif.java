@@ -3,7 +3,7 @@ package metier;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-//import java.sql.Blob;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -16,16 +16,17 @@ public class Justif {
 	private String prenomE;
 	private Date dateSe;
 	private String etatE;
-    private String doc;
+	private String idJ;
     
-	public Justif(long numE, String nomE, String prenomE, Date dateSe, String etatE, String doc) {
+    
+	public Justif(long numE, String nomE, String prenomE, Date dateSe, String etatE, String idJ) {
 		super();
 		this.numE = numE;
 		this.nomE = nomE;
 		this.prenomE = prenomE;
 		this.dateSe = dateSe;
 		this.etatE = etatE;
-		this.doc = doc;
+		this.idJ = idJ;
 	}
 
 	public long getNumE() {
@@ -68,20 +69,18 @@ public class Justif {
 		this.etatE = etatE;
 	}
 
-	public String getDoc() {
-		return doc;
-	}	
+	public String getIdJ() {
+		return idJ;
+	}
 
-	public void setDoc(String doc) {
-		this.doc = doc;
+	public void setIdJ(String idJ) {
+		this.idJ = idJ;
 	}
 
 	@Override
 	public String toString() {
 		return "Justif [numE=" + numE + ", nomE=" + nomE + ", prenomE=" + prenomE + ", dateSe=" + dateSe + ", etatE="
-				+ etatE + ", doc=" + doc + "]";
+				+ etatE + ", idJ=" + idJ + "]";
 	}
     
-    
-	
 }

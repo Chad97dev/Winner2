@@ -1,5 +1,7 @@
 <%@page import="metier.Justif" %>
 <%@page import="java.util.List" %>
+<%@page import="java.sql.Blob" %>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -22,6 +24,7 @@ p    {}
 <body>
 
 <div id="listeJustificatif">
+
      <table border="1">
      	<tr>
      	    <th>Numero Etudiant</th>
@@ -34,6 +37,7 @@ p    {}
         <%
         	List<Justif> liste = (List<Justif>) request.getAttribute("liste");
         	for(Justif justif : liste){
+        		String b = justif.getIdJ();
         %>
           <tr>
            	  <td><%= justif.getNumE() %></td>
@@ -41,13 +45,16 @@ p    {}
            	  <td><%= justif.getPrenomE() %></td>
            	  <td><%= justif.getDateSe() %></td>
            	  <td><%= justif.getEtatE() %></td>
-           	  <td><a href="<%=justif.getDoc()%>" download>Justificatif</a></td>
+           	  <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td> 
           </tr>
+          
           <%
         	}
           %>
-          
      </table>
+    
+    
+    
 </div>    
 </body>
 </html>

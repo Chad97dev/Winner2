@@ -1,4 +1,5 @@
 package bd;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -126,7 +127,7 @@ public class Bd {
 		public static List<Justif> listerJustif() throws Exception{
 			
 			//String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.Justificatif  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.Justificatif IS NOT NULL AND EtatJ IS NULL";
-			String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.LienJ  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.LienJ IS NOT NULL AND EtatJ IS NULL";
+			String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.IdJ  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.LienJ IS NOT NULL AND EtatJ IS NULL";
 			
 			ArrayList<Justif> liste = new ArrayList<>();
 			
@@ -150,6 +151,27 @@ public class Bd {
 		
 		}
 	
-	
+	public static Blob getBlob(String id) throws Exception {
+		
+		Blob b = null;
+		if(cx==null) {
+			Bd.connexion();
+		}
+		String sql = "SELECT Justificatif FROM Participer WHERE IdJ =?";
+		
+		try(PreparedStatement st = cx.prepareStatement(sql)){
+			st.setString(1, id);
+			try(ResultSet rs = st.executeQuery()){
+				while(rs.next()) {
+					Blob j = rs.getBlob(1);
+					return j;
+				}
+			}catch(Exception sqle) {
+				throw new Exception("Exception Bd.getBlob - blob -" + sqle.getMessage());
+			}
+		return null;
+		}
+		
+	}
 	
 }
