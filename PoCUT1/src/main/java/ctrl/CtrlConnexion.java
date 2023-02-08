@@ -49,7 +49,7 @@ public class CtrlConnexion extends HttpServlet {
 					request.getRequestDispatcher("EmploiDuTemps").forward(request, response);
 					break;
 				case "Scolarite":
-					request.getRequestDispatcher("AcceuilScolarite").forward(request, response);
+					request.getRequestDispatcher("VerifierJustificatif").forward(request, response);
 					break;
 				}}
 			else {
