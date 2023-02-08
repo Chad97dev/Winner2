@@ -12,6 +12,7 @@ import java.util.HashMap;
 import metier.Cours;
 import metier.Etudiant;
 import metier.Seance;
+import metier.Justif;
 import metier.User;
 
 public class Bd {
@@ -134,6 +135,13 @@ public class Bd {
 			String typeU ="Present";
 			//Bd.enregistrerFicheAppel(abs, numS, typeU);
 			Bd.updateValidationFicheAppel(numS);
+			/*System.out.println("chargement du pilote réussi");
+			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve"));
+			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getNom());
+			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getPrenom());
+			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getConnexion());*/
+			List<Justif> liste = Bd.listerJustif();
+			System.out.println(liste);
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -560,4 +568,55 @@ public class Bd {
 
 
 
+	
+		public static List<Justif> listerJustif() throws Exception{
+			
+			//String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.Justificatif  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.Justificatif IS NOT NULL AND EtatJ IS NULL";
+			String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.IdJ  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.LienJ IS NOT NULL AND EtatJ IS NULL";
+			
+			ArrayList<Justif> liste = new ArrayList<>();
+			
+			try(PreparedStatement st = cx.prepareStatement(sql))
+			  {
+				try (ResultSet rs = st.executeQuery())
+	                { 
+		             while(rs.next())
+		              {
+			            Justif j = new Justif(rs.getLong(1), rs.getString(2),rs.getString(3),rs.getDate(4),rs.getString(5),rs.getString(6));
+			            liste.add(j);
+		                }
+		
+		                return liste;
+	                    }
+				        }
+				
+				catch(SQLException sqle) {
+					throw new Exception("Exception bd.listerJustif() -  Lecture des messages - "+ sqle.getMessage());
+			       }
+		
+		}
+	
+	public static Blob getBlob(String id) throws Exception {
+		
+		Blob b = null;
+		if(cx==null) {
+			Bd.connexion();
+		}
+		String sql = "SELECT Justificatif FROM Participer WHERE IdJ =?";
+		
+		try(PreparedStatement st = cx.prepareStatement(sql)){
+			st.setString(1, id);
+			try(ResultSet rs = st.executeQuery()){
+				while(rs.next()) {
+					Blob j = rs.getBlob(1);
+					return j;
+				}
+			}catch(Exception sqle) {
+				throw new Exception("Exception Bd.getBlob - blob -" + sqle.getMessage());
+			}
+		return null;
+		}
+		
+	}
+	
 }
