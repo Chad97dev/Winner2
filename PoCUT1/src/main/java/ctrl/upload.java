@@ -11,7 +11,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import bd.Bd;
 
 @WebServlet("/upload")
 @MultipartConfig
@@ -23,47 +29,52 @@ public class upload extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            request.getRequestDispatcher("/webapp/deposer.jsp").forward(request, response);
+    	response.getWriter().append("Served at: ").append(request.getContextPath());
         }
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Connexion à la base de données
-        Connection conn = null;
-        PreparedStatement statement = null;
-        try {
-            // Ouvrir une connexion à la base de données
-            conn = bd.Bd.connection();
-            System.out.println("conn ok" + conn);
-            
-            Part filePart = request.getPart("file");
-        	
-            InputStream inputStream = null;
-            if(filePart != null) {
-            	long fileSize = filePart.getSize();
-            	String fileContent = filePart.getContentType();
-                inputStream = filePart.getInputStream();
-            }
-           
-
-            // Préparer une requête SQL pour enregistrer le fichier dans la base de données
-            String sql = "INSERT INTO Participer(NumE, NumSE, EtatEtu, Justificatif) VALUES (?,?,?,?)";
-            statement = conn.prepareStatement(sql);
-            statement.setInt(1, 21915858);
-            statement.setInt(2, 3);
-            statement.setString(3, "");
-            statement.setBlob(4, inputStream);
-            
-            /*int returCode = statement.executeUpdate();
-            if(returCode == 0) {
-            	request.setAttribute("Message", "Error inserting file");
-            }else {
-            	request.setAttribute("Message", "Your record inserted success fully");
-            }*/
-
-            // Exécuter la requête pour enregistrer le fichier
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
-    }}
+    	//récupérer les attributs dans la session
+        HttpSession session = request.getSession(true);
+        String[] listeSeancesChoisies = (String[]) session.getAttribute("listeSeancesChoisies");
+        Integer numU = (Integer) session.getAttribute("numU");
+        String nomU = (String) session.getAttribute("nom");
+        String prenomU = (String) session.getAttribute("prenom");
+        System.out.println("attribute ok");
+        
+        //generer un ID pour justificatif
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String idJP = df.format(date);
+        String idJ = nomU + " " + prenomU + " " + idJP;
+        System.out.println("idJ ok");
+        
+        //récupérer le fichier 
+        Part filePart = request.getPart("file");
+        InputStream inputStream = null;
+        if(filePart != null) {
+        	System.out.println("fichier find");
+        	long fileSize = filePart.getSize();
+        	String fileContent = filePart.getContentType();
+            inputStream = filePart.getInputStream();
+        
+	        //insérer justificatif
+	        for (String s : listeSeancesChoisies) {		
+	        	Integer numSe=Integer.parseInt(s);
+	        	System.out.println("attribute" + numU + numSe + idJ);
+	        	
+		        try {Bd.deposerJus(numU, numSe, inputStream, idJ);
+		        System.out.println("update ok");
+		        System.out.println("aller à la page suivante");
+		        request.getRequestDispatcher("OK").forward(request, response);
+		        }
+		        catch (Exception e) {
+		        	e.printStackTrace();
+		        	request.setAttribute("msg_error", "dépot échoué");
+		            request.getRequestDispatcher("Deposer").forward(request, response);} 
+	        }
+	        
+	    }
+        
+        
+}}

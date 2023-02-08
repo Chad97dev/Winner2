@@ -24,7 +24,7 @@
 		}else{
 			Iterator it = listeSeances.keySet().iterator();
 			Integer i = 0;
-			out.print("<p>Liste des absences</p><p>Veuillez choisir les séances pour lesquelles vous voulez déposer un justificatif : </p><form action=\"CtrlCfrmAbs\" method=\"get\"><table><tr><td></td><td>COURS</td><td>DATE</td><td>HEURE</td></tr>");
+			out.print("<p>Liste des absences</p><p>Veuillez choisir les séances pour lesquelles vous voulez déposer un justificatif : </p><form action=\"CtrlCfrmAbs\" method=\"get\"><table><tr><td>JUSTIFICATIF</td><td>COURS</td><td>DATE</td><td>HEURE</td></tr>");
 			while(it.hasNext()){
 				Seance se = (Seance) it.next();
 				i++;

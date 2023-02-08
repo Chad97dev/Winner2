@@ -363,5 +363,27 @@ public class Bd {
 		return null;
 	}
 	}
+	
+	public static void deposerJus(Integer numU, Integer numSe, InputStream lien, String idJ) throws Exception {
+		//connexion
+		if(cx==null) {
+			Bd.connexion();
+		}
+		//requête
+		String query = "UPDATE Participer SET EtatJ = \"Invalide\", IdJ = ?, Justificatif = ? WHERE NumE = ? AND NumSE = ?;";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+            st.setString(1, idJ);
+            st.setBinaryStream(2, lien);
+            st.setInt(3, numU);
+            st.setInt(4, numSe);
+            
+            //execute
+			st.executeUpdate();
+			}catch(Exception sqle){
+				throw new Exception("Exception Bd.deposerJus - deposer un justificatif - " + sqle.getMessage());
+			}
+		System.out.println("inserer ok");
+	
+	}
 
 }
