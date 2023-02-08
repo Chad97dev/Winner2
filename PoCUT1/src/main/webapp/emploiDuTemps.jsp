@@ -32,6 +32,10 @@
 		%>
 	</select>
 	<br />
+	
+	<a href="CtrlDeconnexion">Se deconnecter</a>
+	
+	<div>${requestScope.msg_validationFA}</div>
 	<div id="seances"></div>
 
 

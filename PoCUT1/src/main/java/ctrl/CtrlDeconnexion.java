@@ -8,26 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bd.Bd;
-
 /**
- * Servlet implementation class CtrlListeEtudiants
+ * Servlet implementation class CtrlDeconnexion
  */
-@WebServlet("/CtrlListeEtudiants")
-public class CtrlListeEtudiants extends HttpServlet {
-	
+@WebServlet("/CtrlDeconnexion")
+public class CtrlDeconnexion extends HttpServlet {
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String numS = request.getParameter("numS");
-		try {
-			request.setAttribute("liste", Bd.listeEtudiant(numS));
-			request.getRequestDispatcher("ListeEtudiant").forward(request, response);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		session.invalidate();
+		response.sendRedirect("login.jsp");
 	}
+
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
+
 }

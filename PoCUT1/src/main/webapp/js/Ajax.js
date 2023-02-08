@@ -9,8 +9,14 @@
 	// Objet XMLHttpRequest.
 	var xhr = new XMLHttpRequest();
 	var numSemaine = this.value;
-	// Requête au serveur avec les paramètres éventuels.
-	xhr.open("GET", "ctrlEDT?numSemaine=" + numSemaine );
+	var numSemaineDefaut = document.getElementById("weekNumber").value;
+	
+	// Vérification de la valeur de numSemaine et utilisation de la valeur par défaut si nécessaire.
+ 	var semaineParam = (numSemaine === undefined || numSemaine === null) ? numSemaineDefaut : numSemaine;
+
+  	// Requête au serveur avec les paramètres éventuels.
+  	xhr.open("GET", "ctrlEDT?numSemaine=" + semaineParam);
+
 
 	// On précise ce que l'on va faire quand on aura reçu la réponse du serveur.
 	xhr.onload = function()
@@ -25,7 +31,7 @@
         	var elt = document.getElementById("seances");
         	var c = "<ul> "
         	for (var i = 0; i < seances.length; i++) {
-            	c = c + "<li><a href=CtrlFicheAppel?numS=" + numSeances[i].textContent +">" + seances[i].textContent + "</a><br><a href=CtrlListeEtudiants?numS=" + numSeances[i].textContent +">Liste Etudiant</a></li>";
+            	c = c + "<li><a href=CtrlFicheAppel?numS=" + numSeances[i].textContent +"&seance=" + seances[i].textContent + ">" + seances[i].textContent + "</a></li>";
         	}
         	
             elt.innerHTML = c + "</ul>";
@@ -55,8 +61,7 @@
  * Lancement après le chargement du DOM.
  */
 document.addEventListener("DOMContentLoaded", () => {
-	
+	numSemaineDefaut = document.getElementById("weekNumber").value;
 	document.getElementById("weekNumber").addEventListener("change",afficheEDT);
-	
-	
+	afficheEDT();
 });
