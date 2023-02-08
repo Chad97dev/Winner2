@@ -15,9 +15,6 @@
 <!-- Main css -->
 <link rel="stylesheet" href="css/style.css">
 <style>
-body {}
-h1   {}
-p    {}
 #listeJustificatif {margin-left:300px;}
 </style>
 </head>
@@ -45,7 +42,10 @@ p    {}
            	  <td><%= justif.getPrenomE() %></td>
            	  <td><%= justif.getDateSe() %></td>
            	  <td><%= justif.getEtatE() %></td>
-           	  <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td> 
+           	  <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td>
+           	  <td><a href=""><input type="button" value="Valider"></a></td>
+           	  <td><a href=""><input type="button" value="Invalider"></a></td>
+           	  <td></td>
           </tr>
           
           <%

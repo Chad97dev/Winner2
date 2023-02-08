@@ -186,7 +186,7 @@ public class Bd {
 	}
 	
 	//Il faut les parametres de l'etudiant qui envoie son fichier
-		public static void envoyerMail(String user, String mdp) {
+		/*public static void envoyerMail(String user, String mdp) {
 		   Properties props = new Properties();
 		   props.put("mail.smtp.host", "smtp-mail.outlook.com");
 		   props.put("mail.smtp.auth", "true");
@@ -208,6 +208,22 @@ public class Bd {
 		    Transport.send(message);
 		   
 		     } catch (MessagingException e) {e.printStackTrace();}
-		 }
+		 }*/
 	
+	public static void validationJustificatif(String decision, int numE, int numSE) {
+		 
+		if(decision == "valide") {
+			String sql = "UPDATE Participer SET EtatJ ='Valide' WHERE NumE=? AND NumSE=?";
+			try(PreparedStatement st = cx.prepareStatement(sql)){
+				st.setLong(1, numE);
+				st.setLong(2, numSE);
+				try(ResultSet rs = st.executeQuery()){
+					
+				}catch(Exception sqle) {
+					throw new Exception("Exception Bd.getBlob - blob -" + sqle.getMessage());
+				}
+			return null;
+			}
+		}
+	}
 }
