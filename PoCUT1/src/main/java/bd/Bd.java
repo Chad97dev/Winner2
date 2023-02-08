@@ -84,7 +84,11 @@ public class Bd {
 			for(Etudiant e : Bd.listeEtudiant("1")) {
 				System.out.println("numE : " + e.getNumU() + " NomE : " + e.getNomU() + " PrenomE : " + e.getPrenomU() + " TypeU : " + e.getTypeU() + " Mail : " + e.getMailU() + " connexion : " + e.getConnexion() + " TypeE : " + e.getTypeE() + " numTel : " + e.getNumTel() + " adresse : " + e.getAdresse());
 			}
-
+			String[] abs = {"20911234"};
+			String numS = "1";
+			String typeU ="Present";
+			//Bd.enregistrerFicheAppel(abs, numS, typeU);
+			Bd.updateValidationFicheAppel(numS);
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -215,6 +219,59 @@ public class Bd {
 			}
 		}
 	}
+
+	public static int enregistrerFicheAppel(String[] listeAbsents, String numS, String typeUpdate) throws Exception {
+		if(cx==null) {
+			Bd.connexion();
+		}
+		String query = "UPDATE Participer P JOIN Seance S ON S.NumSE = P.NumSE JOIN Etudiant E ON E.NumE = P.NumE SET P.EtatEtu = ?, S.validee = 'Oui' WHERE P.NumE = ? AND S.NumSE = ?";
+		int nb = 0;
+		try(PreparedStatement st = cx.prepareStatement(query)){
+
+			for(int i = 0 ; i<listeAbsents.length; i++) {
+				st.setString(1, typeUpdate);
+				st.setString(2, listeAbsents[i]);
+				st.setString(3, numS);
+				nb = st.executeUpdate();
+			}	
+		}
+		catch(SQLException sqle) {
+			throw new Exception ("Exception bd.enregistrerFicheAppel - probleme a l'Update - " + sqle.getMessage());
+
+		}
+		return nb;
+	}
+
+	public static String verifValidationFicheAppel(String numS) throws Exception {
+		if(cx==null) {
+			Bd.connexion();
+		}
+		String query = "SELECT validee from Seance where NumSE = ?";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setString(1, numS);
+			try(ResultSet rs = st.executeQuery()){
+				rs.next();
+				return rs.getString(1);
+			}
+		}
+	}
+
+	public static void updateValidationFicheAppel(String numS) throws Exception {
+		if(cx==null) {
+			Bd.connexion();
+		}
+		int nb = 0;
+		String query = "UPDATE Seance SET validee = 'Oui' WHERE NumSE = ?";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setString(1, numS);
+			nb = st.executeUpdate();
+		}
+		catch(SQLException sqle) {
+			throw new Exception ("Exception bd.enregistrerFicheAppel - probleme a l'Update - " + sqle.getMessage());
+
+		}
+	}
+
 
 
 

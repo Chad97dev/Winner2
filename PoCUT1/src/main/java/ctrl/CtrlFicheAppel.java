@@ -1,6 +1,7 @@
 package ctrl;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,8 +19,12 @@ public class CtrlFicheAppel extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String numS = request.getParameter("numS");
+		String seance = URLDecoder.decode(request.getParameter("seance"), "UTF-8");
 		try {
 			request.setAttribute("liste", Bd.listeEtudiant(numS));
+			request.setAttribute("validation", Bd.verifValidationFicheAppel(numS));
+			request.setAttribute("numSeance", numS);
+			request.setAttribute("seance", seance);
 			request.getRequestDispatcher("FicheAppel").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
