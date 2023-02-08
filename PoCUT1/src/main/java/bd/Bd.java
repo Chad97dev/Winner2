@@ -87,7 +87,8 @@ public class Bd {
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getConnexion());
 			List<Justif> liste = Bd.listerJustif();
 			System.out.println(liste);*/
-			//Bd.envoyerMail();
+			//Bd.validationJustificatif("valide", "22006489", "5");
+			
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -138,7 +139,7 @@ public class Bd {
 		public static List<Justif> listerJustif() throws Exception{
 			
 			//String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.Justificatif  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.Justificatif IS NOT NULL AND EtatJ IS NULL";
-			String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.IdJ  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.LienJ IS NOT NULL AND EtatJ IS NULL";
+			String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.IdJ, P.NumSE  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.LienJ IS NOT NULL AND EtatJ IS NULL";
 			
 			ArrayList<Justif> liste = new ArrayList<>();
 			
@@ -148,7 +149,7 @@ public class Bd {
 	                { 
 		             while(rs.next())
 		              {
-			            Justif j = new Justif(rs.getLong(1), rs.getString(2),rs.getString(3),rs.getDate(4),rs.getString(5),rs.getString(6));
+			            Justif j = new Justif(rs.getLong(1), rs.getString(2),rs.getString(3),rs.getDate(4),rs.getString(5),rs.getString(6),rs.getLong(7));
 			            liste.add(j);
 		                }
 		
@@ -210,19 +211,27 @@ public class Bd {
 		     } catch (MessagingException e) {e.printStackTrace();}
 		 }*/
 	
-	public static void validationJustificatif(String decision, int numE, int numSE) {
-		 
+	public static void validationJustificatif(String decision, long numE, long numSE) throws Exception {
+		
+		if(cx==null) {
+			Bd.connexion();
+		}
+		
 		if(decision == "valide") {
 			String sql = "UPDATE Participer SET EtatJ ='Valide' WHERE NumE=? AND NumSE=?";
 			try(PreparedStatement st = cx.prepareStatement(sql)){
 				st.setLong(1, numE);
 				st.setLong(2, numSE);
-				try(ResultSet rs = st.executeQuery()){
-					
-				}catch(Exception sqle) {
-					throw new Exception("Exception Bd.getBlob - blob -" + sqle.getMessage());
-				}
-			return null;
+				st.executeUpdate();
+				System.out.println(st);
+			}
+			
+		} else if(decision == "invalide") {
+			String sql = "UPDATE Participer SET EtatJ ='Invalide' WHERE NumE=? AND NumSE=?";
+			try(PreparedStatement st = cx.prepareStatement(sql)){
+				st.setLong(1, numE);
+				st.setLong(2, numSE);
+				st.executeUpdate();
 			}
 		}
 	}
