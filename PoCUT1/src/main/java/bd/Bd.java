@@ -186,7 +186,9 @@ public class Bd {
 		try(PreparedStatement st = cx.prepareStatement(query)){
 			st.setString(1, mail);
 			st.setString(2, mdp);
-
+			if(cx==null) {
+				Bd.connexion();
+			} 
 			try(ResultSet rs = st.executeQuery()){
 				if(rs.next()) {
 					res = rs.getString(1);
@@ -431,6 +433,60 @@ public class Bd {
 				throw new Exception("Exception Bd.getImageData - afficher l'image - " + sqle.getMessage());
 			}
 		}
+	}
+	
+	public static HashMap<Seance, String> listeSeancesInjus(Integer numU) throws Exception {
+		HashMap<Seance, String> listeSeances = new HashMap<>();
+		if(cx==null) {
+			Bd.connexion();
+		}
+		String query = "SELECT s.NumSE, s.DateSE, s.HeureDebutSE, s.HeureFinSE, s.NumeroSemaine, s.NumCO, c.NomCO, c.SalleCO,  p.EtatJ FROM Participer p, Seance s, Cours c WHERE p.EtatEtu = 'Absent'AND p.Justificatif=\"\" AND p.NumE=? AND p.NumSE = s.NumSE AND c.numCO = s.NumCO";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setInt(1, numU);
+			try(ResultSet rs = st.executeQuery()){
+				Boolean existe = false;
+				while(rs.next()) {
+					existe = true;
+					Seance se = new Seance(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getTime(4), rs.getInt(5));
+					se.setCours(new Cours(rs.getInt(6), rs.getString(7), rs.getString(8)));
+					listeSeances.put(se, rs.getString(9));
+				}
+				if(!existe) {
+					listeSeances = null;
+				}
+			}
+		}catch(Exception sqle){
+			throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
+		}
+		return listeSeances;
+		
+	}
+	
+	public static HashMap<Seance, String> listeSeancesJus(Integer numU) throws Exception {
+		HashMap<Seance, String> listeSeances = new HashMap<>();
+		if(cx==null) {
+			Bd.connexion();
+		}
+		String query = "SELECT s.NumSE, s.DateSE, s.HeureDebutSE, s.HeureFinSE, s.NumeroSemaine, s.NumCO, c.NomCO, c.SalleCO,  p.EtatJ FROM Participer p, Seance s, Cours c WHERE p.EtatEtu = 'Absent'AND p.Justificatif<>\"\" AND p.NumE=? AND p.NumSE = s.NumSE AND c.numCO = s.NumCO";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setInt(1, numU);
+			try(ResultSet rs = st.executeQuery()){
+				Boolean existe = false;
+				while(rs.next()) {
+					existe = true;
+					Seance se = new Seance(rs.getInt(1), rs.getDate(2), rs.getTime(3), rs.getTime(4), rs.getInt(5));
+					se.setCours(new Cours(rs.getInt(6), rs.getString(7), rs.getString(8)));
+					listeSeances.put(se, rs.getString(9));
+				}
+				if(!existe) {
+					listeSeances = null;
+				}
+			}
+		}catch(Exception sqle){
+			throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
+		}
+		return listeSeances;
+		
 	}
 
 

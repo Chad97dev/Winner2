@@ -12,7 +12,6 @@
 		<input type="file" name="file"><br><br>
 		<input type="submit" value="Déposer">
 	</form>
-	<a href="ctrlTest">click here for download one pdf</a>
 	<p>${requestScope.msg_error}</p>
 </body>
 </html>

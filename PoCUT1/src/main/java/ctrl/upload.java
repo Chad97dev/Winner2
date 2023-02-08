@@ -2,6 +2,7 @@ package ctrl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -66,7 +67,8 @@ public class upload extends HttpServlet {
 		        try {Bd.deposerJus(numU, numSe, inputStream, idJ);
 		        System.out.println("update ok");
 		        System.out.println("aller à la page suivante");
-		        request.getRequestDispatcher("OK").forward(request, response);
+		        String mail = URLEncoder.encode((String) session.getAttribute("email"), "utf-8");
+		        request.getRequestDispatcher("CtrlConnexion?username="+mail+"&password="+session.getAttribute("pwd")+"&signin=Log+in").forward(request, response);
 		        }
 		        catch (Exception e) {
 		        	e.printStackTrace();

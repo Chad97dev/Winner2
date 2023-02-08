@@ -24,17 +24,17 @@
 		}else{
 			Iterator it = listeSeances.keySet().iterator();
 			Integer i = 0;
-			out.print("<p>Liste des absences</p><p>Veuillez choisir les séances pour lesquelles vous voulez déposer un justificatif : </p><form action=\"CtrlCfrmAbs\" method=\"get\"><table><tr><td>JUSTIFICATIF</td><td>COURS</td><td>DATE</td><td>HEURE</td></tr>");
+			out.print("<p>Liste des absences</p><p>Veuillez choisir les séances pour lesquelles vous voulez déposer un justificatif : </p><form action=\"CtrlCfrmAbs\" method=\"post\" ><table><tr><td>JUSTIFICATIF</td><td>COURS</td><td>DATE</td><td>HEURE</td></tr>");
 			while(it.hasNext()){
 				Seance se = (Seance) it.next();
 				i++;
 				out.print("<tr><td><input type=\"checkbox\" id=\"seance"+i+"\" name=\"cb_seance\" value=\""+se.getNumSeance()+"\" /></td><td>"+se.getCours().getNomCours()+"</td><td>"+se.getDateSeance()+"</td><td>"+se.getHeureDebutSeance()+"-"+se.getHeureFinSeance()+"</td><td>");
 			}
-			out.print("</table><input type=\"submit\" value=\"Confirmer\"></form>");
+			out.print("</table><input type=\"submit\" value = \"Confirmer\"/></form>");
 		}
 		%>
 	<p>${requestScope.msg_info}</p>
-	
+	<a href="CtrlAbsJus">Consulter mes absences justifiées</a>
 	<a href="CtrlProfil">MON PROFIL</a>
 </body>
 </html>

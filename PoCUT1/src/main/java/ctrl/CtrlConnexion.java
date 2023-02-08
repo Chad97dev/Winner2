@@ -41,7 +41,7 @@ public class CtrlConnexion extends HttpServlet {
 				switch (type)
 				{
 				case "Etudiant":
-					HashMap<Seance, String> listeSeances =  Bd.listeSeance(utilisateur.getNumU());
+					HashMap<Seance, String> listeSeances =  Bd.listeSeancesInjus(utilisateur.getNumU());
 					session.setAttribute("listeSeances", listeSeances);
 					request.getRequestDispatcher("AcceuilEtudiant").forward(request, response);
 					break;

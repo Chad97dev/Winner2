@@ -1,6 +1,7 @@
 package metier;
 
 import java.sql.Blob;
+import java.util.ArrayList;
 
 public class Etudiant extends User{
 	
