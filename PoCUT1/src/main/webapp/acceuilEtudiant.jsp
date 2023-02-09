@@ -8,6 +8,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/styleUS12.css">
 <meta charset="UTF-8">
 <title>ACCEUIL</title>
 </head>
