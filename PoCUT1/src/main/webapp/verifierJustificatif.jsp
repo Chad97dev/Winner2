@@ -8,7 +8,8 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Justificatifs à vérifier</title>
+<title>Justificatifs ï¿½ vï¿½rifier</title>
+ <link rel="stylesheet" href="stylesUs9.css">
 <link rel="stylesheet"
 	href="fonts/material-icon/css/material-design-iconic-font.min.css">
 
@@ -20,7 +21,7 @@
 </head>
 <body>
 
-<div id="listeJustificatif">
+<!-- <div id="listeJustificatif">
 
      <table border="1">
      	<tr>
@@ -30,33 +31,55 @@
      	    <th>Date seance</th>
      	    <th>Etat absence</th>
      	    <th>Justificatif</th>
-     	</tr>
+     	</tr>-->
+     	
+    <div id="listeJustificatif" class="table-wrapper">
+    <table class="fl-table">
+        <thead>
+        <tr>
+            <th>Numero Etudiant</th>
+            <th>Nom</th>
+            <th>Date seance</th>
+            <th>Etat absence</th>
+            <th>Justificatif</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
         <%
         	List<Justif> liste = (List<Justif>) request.getAttribute("liste");
         if(liste != null){
         	for(Justif justif : liste){
         		String b = justif.getIdJ();
         %>
-          <tr>
+          <!--<tr>
            	  <td><%= justif.getNumE() %></td>
            	  <td><%= justif.getNomE()%></td>
            	  <td><%= justif.getPrenomE() %></td>
            	  <td><%= justif.getDateSe() %></td>
            	  <td><%= justif.getEtatE() %></td>
-           	  <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td>
-           	  <td><a href="CtrlDecisionJustificatif?decision=Valide&numE=<%= justif.getNumE() %>&numSE=<%= justif.getIdSe()%>"><input type="button" value="Valider"></a></td>
-           	  <td><a href="CtrlDecisionJustificatif?decision=Invalide&numE=<%= justif.getNumE() %>&numSE=<%= justif.getIdSe()%>"><input type="button" value="Invalider"></a></td>
-           	  <td></td>
-          </tr>
+           	  <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td> 
+          </tr>  !-->
+           <tr>
+            <td><%= justif.getNumE() %></td>
+            <td><%= justif.getNomE()%></td>
+            <td><%= justif.getPrenomE() %></td>
+            <td><%= justif.getDateSe() %></td>
+            <td><%= justif.getEtatE() %></td>
+            <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td> 
+         </tr>
+        <tbody>
+    </table>
+   </div>
           
           <%
         	}
         }
           %>
-     </table>
+    <!-- </table>
     
     
     
 </div>    
 </body>
-</html>
+</html> !-->
