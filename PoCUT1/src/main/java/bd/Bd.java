@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import metier.Cours;
@@ -251,8 +252,8 @@ public class Bd {
 	}
 
 	//Méthode qui retourne l'emploi du temps d'un prof
-	public static HashMap<Cours, Seance> edt(String numE, String numSemaine) throws Exception {
-		HashMap<Cours, Seance> seances = new HashMap<>();
+	public static LinkedHashMap<Cours, Seance> edt(String numE, String numSemaine) throws Exception {
+		LinkedHashMap<Cours, Seance> seances = new LinkedHashMap<>();
 		if(cx==null) {
 			Bd.connexion();
 		}

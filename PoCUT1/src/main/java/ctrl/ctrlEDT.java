@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
@@ -34,12 +35,17 @@ public class ctrlEDT extends HttpServlet {
 			out.println("<liste_seances>");
 			/*----- Récupération des paramètres -----*/
 			try {
-				HashMap<Cours, Seance> seances = Bd.edt(numE+ "", numSemaine);
+				LinkedHashMap<Cours, Seance> seances = Bd.edt(numE+ "", numSemaine);
 				for (Entry<Cours, Seance> s : seances.entrySet()) {
 					out.println("<seance>" + s.getValue().getDateSeance()+ "  " + s.getValue().getHeureDebutSeance() + " " + s.getValue().getHeureFinSeance() + "  " + s.getKey().getNomCours() + "  " + s.getKey().getSalleCours()+ "</seance>");
 					out.println("<numSeance>" + s.getValue().getNumSeance()+ "</numSeance>");
+					out.println("<dateSeance>" + s.getValue().getDateSeance()+ "</dateSeance>");
+					out.println("<cours>" + s.getKey().getNomCours() + "</cours>");
+					out.println("<salle>" + s.getKey().getSalleCours() + "</salle>");
+					out.println("<heureDebSeance>" + s.getValue().getHeureDebutSeance() + "</heureDebSeance>");
+					out.println("<heureFinSeance>" + s.getValue().getHeureFinSeance() + "</heureFinSeance>");
 				}
-			} catch (Exception e) {
+			} catch (Exception e) { 
 				// TODO Auto-generated catch block
 				out.println("<seance>Erreur - " + e.getMessage() + "</seance>");
 			}
