@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Justificatifs ï¿½ vï¿½rifier</title>
+<title>Justificatifs verifier</title>
  <link rel="stylesheet" href="stylesUs9.css">
 <link rel="stylesheet"
 	href="fonts/material-icon/css/material-design-iconic-font.min.css">
@@ -39,9 +39,12 @@
         <tr>
             <th>Numero Etudiant</th>
             <th>Nom</th>
-            <th>Date seance</th>
-            <th>Etat absence</th>
-            <th>Justificatif</th>
+            <th>Prenom</th>
+            <th>Date Séance</th>
+            <th>Etat</th>
+            <th>Justifactif</th>
+            <th>Valider</th>
+            <th>Invalider</th>
         </tr>
         </thead>
         <tbody>
@@ -52,30 +55,25 @@
         	for(Justif justif : liste){
         		String b = justif.getIdJ();
         %>
-          <!--<tr>
-           	  <td><%= justif.getNumE() %></td>
-           	  <td><%= justif.getNomE()%></td>
-           	  <td><%= justif.getPrenomE() %></td>
-           	  <td><%= justif.getDateSe() %></td>
-           	  <td><%= justif.getEtatE() %></td>
-           	  <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td> 
-          </tr>  !-->
            <tr>
             <td><%= justif.getNumE() %></td>
             <td><%= justif.getNomE()%></td>
             <td><%= justif.getPrenomE() %></td>
             <td><%= justif.getDateSe() %></td>
             <td><%= justif.getEtatE() %></td>
-            <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td> 
+            <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td>
+            <td><a href="CtrlTelechargerJustificatif?decision=Valide&numE<%= justif.getNumE()%>&numSE<%= justif.getIdSe()%>"><input type="button" value="Valider"></a></td> 
+            <td><a href="CtrlTelechargerJustificatif?decision=Invalide&numE<%= justif.getNumE()%>&numSE<%= justif.getIdSe()%>"><input type="button" value="Invalider"></a></td>
          </tr>
         <tbody>
-    </table>
-   </div>
+    
           
           <%
         	}
         }
           %>
+	</table>
+</div>
     <!-- </table>
     
     
