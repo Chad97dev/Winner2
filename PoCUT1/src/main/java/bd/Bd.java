@@ -650,35 +650,31 @@ public class Bd {
 			}
 	}
 	
-	
-	
-	
-	
-	
 	//Il faut les parametres de l'etudiant qui envoie son fichier
-		/*public static void envoyerMail(String user, String mdp) {
+		public static void envoyerMail(String mail, String mdp, String prenom, String nom) throws Exception {
+		
 		   Properties props = new Properties();
 		   props.put("mail.smtp.host", "smtp-mail.outlook.com");
 		   props.put("mail.smtp.auth", "true");
 		   props.put("mail.smtp.starttls.enable", "true");
 		   Authenticator auth = new Authenticator() {
 		      protected PasswordAuthentication getPasswordAuthentication() {
-		              return new PasswordAuthentication(user, mdp);
+		              return new PasswordAuthentication(mail, mdp);
 		      }
 		    };
 		    Session session = Session.getInstance(props, auth);
 		    
 		    try {
 		     MimeMessage message = new MimeMessage(session);
-		     message.setFrom(new InternetAddress(user));
+		     message.setFrom(new InternetAddress(mail));
 		     message.addRecipient(Message.RecipientType.TO, new InternetAddress("genevieve.labrousse01@outlook.fr"));
 		     message.setSubject("Justificatif à valider");
-		     message.setText("L'etudiant X a deposé un justificatif pour validation.");
+		     message.setText("L'etudiant "+ nom + " " + prenom + " a deposé un justificatif pour validation.");
 		     
 		    Transport.send(message);
 		   
 		     } catch (MessagingException e) {e.printStackTrace();}
-		 }*/
+		 }
 	
 	public static void validationJustificatif(String decision, long numE, long numSE) throws Exception {
 		System.out.println(decision);

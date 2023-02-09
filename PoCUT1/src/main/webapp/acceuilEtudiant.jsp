@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/style.css">
+
 <link rel="stylesheet" type="text/css" href="css/styleUS12.css">
 <meta charset="UTF-8">
 <title>ACCEUIL</title>
@@ -15,8 +15,6 @@
 <body>
 
 	<h1>ACCEUIL ETUDIANT</h1>
-	
-	
 		
 		<% 
 		String listeId = (String)session.getAttribute("email");

@@ -18,7 +18,7 @@
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/cannemar/.m2/repository/javax/javax.mail.jar" sourcepath="C:/Users/cannemar/.m2/repository/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2-sources.jar">
+	<classpathentry kind="lib" path="C:/javax.mail.jar" sourcepath="C:/Users/cannemar/.m2/repository/com/sun/mail/javax.mail/1.6.2/javax.mail-1.6.2-sources.jar">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 			<attribute name="maven.groupId" value="com.sun.mail"/>
