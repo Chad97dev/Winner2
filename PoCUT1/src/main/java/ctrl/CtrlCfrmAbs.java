@@ -1,6 +1,8 @@
 package ctrl;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,8 +27,9 @@ public class CtrlCfrmAbs extends HttpServlet {
 			session.setAttribute("listeSeancesChoisies", listeSeancesChoisies);
 			request.getRequestDispatcher("CfrmDepot").forward(request, response);
 		}else {
+			String mail = URLEncoder.encode((String) session.getAttribute("email"), "utf-8");
 			request.setAttribute("msg_info", "Veuillez choisir au mois une séance !");
-			request.getRequestDispatcher("AcceuilEtudiant").forward(request, response);
+			request.getRequestDispatcher("CtrlConnexion?username="+mail+"&password="+session.getAttribute("pwd")+"&signin=Log+in").forward(request, response);
 		}
 	}
 

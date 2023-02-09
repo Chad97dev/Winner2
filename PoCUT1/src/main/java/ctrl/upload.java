@@ -41,42 +41,60 @@ public class upload extends HttpServlet {
         Integer numU = (Integer) session.getAttribute("numU");
         String nomU = (String) session.getAttribute("nom");
         String prenomU = (String) session.getAttribute("prenom");
-        System.out.println("attribute ok");
         
         //generer un ID pour justificatif
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String idJP = df.format(date);
         String idJ = nomU + " " + prenomU + " " + idJP;
-        System.out.println("idJ ok");
         
         //récupérer le fichier 
         Part filePart = request.getPart("file");
         InputStream inputStream = null;
         if(filePart != null) {
-        	System.out.println("fichier find");
         	long fileSize = filePart.getSize();
         	String fileContent = filePart.getContentType();
-            inputStream = filePart.getInputStream();
-        
-	        //insérer justificatif
-	        for (String s : listeSeancesChoisies) {		
-	        	Integer numSe=Integer.parseInt(s);
-	        	System.out.println("attribute" + numU + numSe + idJ);
-	        	
-		        try {Bd.deposerJus(numU, numSe, inputStream, idJ);
-		        System.out.println("update ok");
-		        System.out.println("aller à la page suivante");
-		        String mail = URLEncoder.encode((String) session.getAttribute("email"), "utf-8");
-		        request.getRequestDispatcher("CtrlConnexion?username="+mail+"&password="+session.getAttribute("pwd")+"&signin=Log+in").forward(request, response);
-		        }
-		        catch (Exception e) {
-		        	e.printStackTrace();
-		        	request.setAttribute("msg_error", "dépot échoué");
-		            request.getRequestDispatcher("Deposer").forward(request, response);} 
-	        }
+        	System.out.println("fileContent :"+fileContent+"!");
+        	
+        	//判断文件类型
+        	if(fileContent.equals("application/pdf")) {
+        		//判断文件大小
+        		System.out.println("fileSize "+fileSize);
+        		if(fileSize < 1048576) {
+        				
+                           	//insérer justificatif
+					        for (String s : listeSeancesChoisies) {		
+					        	Integer numSe=Integer.parseInt(s);
+					        	inputStream = filePart.getInputStream();
+					        	
+						        try {Bd.deposerJus(numU, numSe, inputStream, idJ);
+						        inputStream.close();
+						        String mail = URLEncoder.encode((String) session.getAttribute("email"), "utf-8");
+						        request.getRequestDispatcher("CtrlConnexion?username="+mail+"&password="+session.getAttribute("pwd")+"&signin=Log+in").forward(request, response);
+						        }
+						        catch (Exception e) {
+						        	e.printStackTrace();
+						        	request.setAttribute("msg_error", "dépot échoué");
+						            request.getRequestDispatcher("Deposer").forward(request, response);} 
+					        }
+        		}else {
+        			//文件太大
+        			request.setAttribute("msg_error", "La taille du fichier est trop élévée pour être déposé");
+		            request.getRequestDispatcher("Deposer").forward(request, response);
+        		}
+        		
+        	}else {
+        		//请提交PDF
+        		request.setAttribute("msg_error", "Veuillez choisir un fichier pdf");
+	            request.getRequestDispatcher("Deposer").forward(request, response);
+        	}
+        	
 	        
-	    }
+	    }else {
+    		//请提交PDF
+    		request.setAttribute("msg_error", "Veuillez choisir un fichier pdf");
+            request.getRequestDispatcher("Deposer").forward(request, response);
+    	}
         
         
 }}

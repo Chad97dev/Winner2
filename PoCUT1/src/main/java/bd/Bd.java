@@ -256,7 +256,7 @@ public class Bd {
 		if(cx==null) {
 			Bd.connexion();
 		}
-		String query = "SELECT S.NumSE, S.DateSE, S.HeureDebutSE, S.HeureFinSE, S.NumeroSemaine, C.NumCO, C.NomCO, C.SalleCO FROM Seance S, Enseignant E, Cours C WHERE E.NumEN = S.NumEN AND C.NumCO = S.NumCO AND E.NumEN=? AND S.NumeroSemaine =? ORDER BY S.DateSE DESC, S.HeureFinSE DESC";
+		String query = "SELECT S.NumSE, S.DateSE, S.HeureDebutSE, S.HeureFinSE, S.NumeroSemaine, C.NumCO, C.NomCO, C.SalleCO FROM Seance S, Enseignant E, Cours C WHERE E.NumEN = S.NumEN AND C.NumCO = S.NumCO AND E.NumEN=? AND S.NumeroSemaine =? ORDER BY S.DateSE DESC, S.HeureDebSE DESC";
 		try(PreparedStatement st = cx.prepareStatement(query)){
 			st.setString(1, numE);
 			st.setString(2, numSemaine);
@@ -391,7 +391,7 @@ public class Bd {
 			Bd.connexion();
 		}
 		//requête
-		String query = "UPDATE Participer SET EtatJ = \"Invalide\", IdJ = ?, Justificatif = ? WHERE NumE = ? AND NumSE = ?;";
+		String query = "UPDATE Participer SET IdJ = ?, Justificatif = ? WHERE NumE = ? AND NumSE = ?;";
 		try(PreparedStatement st = cx.prepareStatement(query)){
             st.setString(1, idJ);
             st.setBinaryStream(2, lien);
@@ -453,7 +453,7 @@ public class Bd {
 		if(cx==null) {
 			Bd.connexion();
 		}
-		String query = "SELECT s.NumSE, s.DateSE, s.HeureDebutSE, s.HeureFinSE, s.NumeroSemaine, s.NumCO, c.NomCO, c.SalleCO,  p.EtatJ FROM Participer p, Seance s, Cours c WHERE p.EtatEtu = 'Absent'AND p.Justificatif=\"\" AND p.NumE=? AND p.NumSE = s.NumSE AND c.numCO = s.NumCO";
+		String query = "SELECT s.NumSE, s.DateSE, s.HeureDebutSE, s.HeureFinSE, s.NumeroSemaine, s.NumCO, c.NomCO, c.SalleCO,  p.EtatJ FROM Participer p, Seance s, Cours c WHERE p.EtatEtu = 'Absent'AND p.Justificatif is NULL AND p.NumE=? AND p.NumSE = s.NumSE AND c.numCO = s.NumCO";
 		try(PreparedStatement st = cx.prepareStatement(query)){
 			st.setInt(1, numU);
 			try(ResultSet rs = st.executeQuery()){
@@ -480,7 +480,7 @@ public class Bd {
 		if(cx==null) {
 			Bd.connexion();
 		}
-		String query = "SELECT s.NumSE, s.DateSE, s.HeureDebutSE, s.HeureFinSE, s.NumeroSemaine, s.NumCO, c.NomCO, c.SalleCO,  p.EtatJ FROM Participer p, Seance s, Cours c WHERE p.EtatEtu = 'Absent'AND p.Justificatif<>\"\" AND p.NumE=? AND p.NumSE = s.NumSE AND c.numCO = s.NumCO";
+		String query = "SELECT s.NumSE, s.DateSE, s.HeureDebutSE, s.HeureFinSE, s.NumeroSemaine, s.NumCO, c.NomCO, c.SalleCO,  p.EtatJ FROM Participer p, Seance s, Cours c WHERE p.EtatEtu = 'Absent'AND p.Justificatif IS NULL AND p.NumE=? AND p.NumSE = s.NumSE AND c.numCO = s.NumCO";
 		try(PreparedStatement st = cx.prepareStatement(query)){
 			st.setInt(1, numU);
 			try(ResultSet rs = st.executeQuery()){
@@ -619,5 +619,28 @@ public class Bd {
 		}
 		
 	}
+	
+	public static void deposerImg(Integer numU, InputStream photo) throws Exception {
+		//connexion
+		if(cx==null) {
+			Bd.connexion();
+		}
+		//requête
+		String query = "UPDATE Etudiant SET PhotoLienE = ? WHERE NumE = ?;";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+            st.setBinaryStream(1, photo);
+            st.setInt(2, numU);
+            
+            //execute
+			st.executeUpdate();
+			}catch(Exception sqle){
+				throw new Exception("Exception Bd.deposerImg - deposer un photo - " + sqle.getMessage());
+			}
+	}
+	
+	
+	
+	
+	
 	
 }

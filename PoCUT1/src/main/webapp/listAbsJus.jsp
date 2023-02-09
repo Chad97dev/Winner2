@@ -4,6 +4,7 @@
 <%@ page import="metier.Seance"%>
 <%@ page import="java.util.HashMap"%>
 <%@ page import="java.util.Iterator"%>
+<%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +34,11 @@
 		}
 		%>
 	<p>${requestScope.msg_info}</p>
+	<%
+String mail = URLEncoder.encode((String) session.getAttribute("email"), "utf-8");
+out.print("<a href=\"CtrlConnexion?username="+mail+"&password="+session.getAttribute("pwd")+"&signin=Log+in\">Retour</a>");
+%>
+<a href="CtrlDeconnexion">Se deconnecter</a>
 	<a href="CtrlProfil">MON PROFIL</a>
 </body>
 </html>

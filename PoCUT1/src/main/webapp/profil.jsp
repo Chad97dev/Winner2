@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+ <%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Profil</title>
+<link rel="stylesheet" href="css/styleCss.css">
 </head>
 <body>
 <h1>profil</h1>
@@ -57,6 +59,31 @@
 		</tr>
 </table>
 <h2>Photo</h2>
-<img src="show.jsp">
+<% int numU = (int) session.getAttribute("numU") ;
+out.print("<img src=CtrlImage?id=" + numU +"/>"); %>
+<p id="modifImage" onclick="afficherModif()">modifier</p>
+<div id="zoneModifImage">
+	<p>choisir un photo</p>
+	<form action="CtrlUploadImg" method="post" enctype="multipart/form-data">
+		<input type="file" accept="image/*" capture="camera " name="file"><br><br>
+		<input type="submit" value="Enregistrer">
+		<p onclick="cacherModif()">Annuler</p>
+	</form>
+	<p>${requestScope.msg_error}</p>
+</div>
+<%
+String mail = URLEncoder.encode((String) session.getAttribute("email"), "utf-8");
+out.print("<a href=\"CtrlConnexion?username="+mail+"&password="+session.getAttribute("pwd")+"&signin=Log+in\">Home</a>");
+%>
+<a href="CtrlDeconnexion">Se deconnecter</a>
 </body>
 </html>
+
+<script type="text/javascript">
+function afficherModif(){
+	document.getElementById("zoneModifImage").style.display="block";
+}
+function cacherModif(){
+	document.getElementById("zoneModifImage").style.display="none";
+}
+</script>
