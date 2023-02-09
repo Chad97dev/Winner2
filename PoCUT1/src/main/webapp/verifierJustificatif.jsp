@@ -9,12 +9,13 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Justificatifs à vérifier</title>
+ <link rel="stylesheet" href="stylesUs9.css">
 <link rel="stylesheet"
 	href="fonts/material-icon/css/material-design-iconic-font.min.css">
 
 <!-- Main css -->
 <link rel="stylesheet" href="css/style.css">
-<style>
+<!--<style>
 body {}
 h1   {}
 p    {}
@@ -23,7 +24,7 @@ p    {}
 </head>
 <body>
 
-<div id="listeJustificatif">
+<!-- <div id="listeJustificatif">
 
      <table border="1">
      	<tr>
@@ -33,28 +34,53 @@ p    {}
      	    <th>Date seance</th>
      	    <th>Etat absence</th>
      	    <th>Justificatif</th>
-     	</tr>
+     	</tr>-->
+     	
+    <div id="listeJustificatif" class="table-wrapper">
+    <table class="fl-table">
+        <thead>
+        <tr>
+            <th>Numero Etudiant</th>
+            <th>Nom</th>
+            <th>Date seance</th>
+            <th>Etat absence</th>
+            <th>Justificatif</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
         <%
         	List<Justif> liste = (List<Justif>) request.getAttribute("liste");
         	for(Justif justif : liste){
         		String b = justif.getIdJ();
         %>
-          <tr>
+          <!--<tr>
            	  <td><%= justif.getNumE() %></td>
            	  <td><%= justif.getNomE()%></td>
            	  <td><%= justif.getPrenomE() %></td>
            	  <td><%= justif.getDateSe() %></td>
            	  <td><%= justif.getEtatE() %></td>
            	  <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td> 
-          </tr>
+          </tr>  !-->
+           <tr>
+            <td><%= justif.getNumE() %></td>
+            <td><%= justif.getNomE()%></td>
+            <td><%= justif.getPrenomE() %></td>
+            <td><%= justif.getDateSe() %></td>
+            <td><%= justif.getEtatE() %></td>
+            <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td> 
+         </tr>
+        <tbody>
+    </table>
+   </div>
           
           <%
         	}
           %>
-     </table>
+    <!-- </table>
     
     
     
 </div>    
 </body>
-</html>
+</html> !-->
