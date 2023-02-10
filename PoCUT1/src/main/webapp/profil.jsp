@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
  <%@ page import="java.net.URLEncoder" %>
-<!DOCTYPE html>
+<%-- <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
@@ -62,7 +62,7 @@
 <h2>Photo</h2>
 <img src="show.jsp">
 </body>
-</html>-->
+</html>--> --%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -92,7 +92,9 @@
       margin-bottom : 0;
       margin-left : 30px;
     }
-  
+  	#zoneModifImage{
+  	display:none;
+  	}
   </style>
  
 </head>
@@ -189,7 +191,7 @@
 				<p id="modifImage" onclick="afficherModif()">modifier</p>
 				<div id="zoneModifImage">
 					<form action="CtrlUploadImg" method="post" enctype="multipart/form-data">
-						<input type="file" accept="image/*" capture="camera " name="file"><br><br>
+						<input type="file" accept="image/*" name="file"><br><br>
 						<input type="submit" value="Enregistrer">
 						<p onclick="cacherModif()">Annuler</p>
 					</form>

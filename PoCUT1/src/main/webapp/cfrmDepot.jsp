@@ -5,7 +5,7 @@
 <%@ page import="java.util.Iterator"%>
 <%@ page import="java.util.*"%>
  <%@ page import="java.net.URLEncoder" %>
-<!DOCTYPE html>
+<%-- <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
@@ -37,7 +37,7 @@ out.print("<a href=\"CtrlConnexion?username="+mail+"&password="+session.getAttri
 %>
 <a href="CtrlDeconnexion">Se deconnecter</a>
 </body>
-</html> -->
+</html> --> --%>
 
 <!DOCTYPE html>
 <html lang="en">

@@ -17,11 +17,9 @@ import javax.servlet.http.Part;
 
 import bd.Bd;
 
-/**
- * Servlet implementation class CtrlUploadImg
- */
-@WebServlet("/CtrlUploadImg")
 @MultipartConfig
+@WebServlet("/CtrlUploadImg")
+
 public class CtrlUploadImg extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -33,7 +31,7 @@ public class CtrlUploadImg extends HttpServlet {
 	    	response.getWriter().append("Served at: ").append(request.getContextPath());
 	        }
 	    
-	    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	 protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
 	    	//récupérer les attributs dans la session
 	        HttpSession session = request.getSession(true);

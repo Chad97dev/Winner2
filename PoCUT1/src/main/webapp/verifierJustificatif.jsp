@@ -2,83 +2,21 @@
 <%@page import="java.util.List" %>
 <%@page import="java.sql.Blob" %>
 <%@page import="java.util.Date" %>
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Justificatifs verifier</title>
- <link rel="stylesheet" href="stylesUs9.css">
+<title>Justificatifs à vérifier</title>
 <link rel="stylesheet"
 	href="fonts/material-icon/css/material-design-iconic-font.min.css">
-
 <!-- Main css -->
 <link rel="stylesheet" href="css/style.css">
 <style>
 </style>
 </head>
 <body>
-
-<!-- <div id="listeJustificatif">
-
-     <table border="1">
-     	<tr>
-     	    <th>Numero Etudiant</th>
-     	    <th>Nom </th>
-     	    <th>Prenom</th>
-     	    <th>Date seance</th>
-     	    <th>Etat absence</th>
-     	    <th>Justificatif</th>
-     	</tr>-->
-     	
-    <div id="listeJustificatif" class="table-wrapper">
-    <table class="fl-table">
-        <thead>
-        <tr>
-            <th>Numero Etudiant</th>
-            <th>Nom</th>
-            <th>Prenom</th>
-            <th>Date Sï¿½ance</th>
-            <th>Etat</th>
-            <th>Justifactif</th>
-            <th>Valider</th>
-            <th>Invalider</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-        <%
-        	List<Justif> liste = (List<Justif>) request.getAttribute("liste");
-        if(liste != null){
-        	for(Justif justif : liste){
-        		String b = justif.getIdJ();
-        %>
-           <tr>
-            <td><%= justif.getNumE() %></td>
-            <td><%= justif.getNomE()%></td>
-            <td><%= justif.getPrenomE() %></td>
-            <td><%= justif.getDateSe() %></td>
-            <td><%= justif.getEtatE() %></td>
-            <td><a href="CtrlTelechargerJustificatif?b=<%= b%>">Justificatif </a></td>
-            <td><a href="CtrlTelechargerJustificatif?decision=Valide&numE<%= justif.getNumE()%>&numSE<%= justif.getIdSe()%>"><input type="button" value="Valider"></a></td> 
-            <td><a href="CtrlTelechargerJustificatif?decision=Invalide&numE<%= justif.getNumE()%>&numSE<%= justif.getIdSe()%>"><input type="button" value="Invalider"></a></td>
-         </tr>
-        <tbody>
-    
-          
-          <%
-        	}
-        }
-          %>
-	</table>
-</div>
-    <!-- </table>
-    
-    
-    
-</div>    
 <div id="listeJustificatif" class="table-wrapper">
 <table class="fl-table">
 <thead>
@@ -86,7 +24,7 @@
 <th>Numero Etudiant</th>
 <th>Nom</th>
 <th>Prenom</th>
-<th>Date Sï¿½ance</th>
+<th>Date Séance</th>
 <th>Etat</th>
 <th>Justifactif</th>
 <th>Valider</th>
@@ -120,6 +58,8 @@ if(liste != null){
 }
 %>
 	</table>
-</div>  
+</div>
 </body>
-</html> !-->
+</html>
+
+

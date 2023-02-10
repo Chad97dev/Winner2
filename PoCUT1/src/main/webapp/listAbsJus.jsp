@@ -5,7 +5,7 @@
 <%@ page import="java.util.HashMap"%>
 <%@ page import="java.util.Iterator"%>
 <%@ page import="java.net.URLEncoder" %>
-<!DOCTYPE html>
+<%-- <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -41,7 +41,7 @@ out.print("<a href=\"CtrlConnexion?username="+mail+"&password="+session.getAttri
 <a href="CtrlDeconnexion">Se deconnecter</a>
 	<a href="CtrlProfil">MON PROFIL</a>
 </body>
-</html> -->
+</html>  --%>
 
 <!DOCTYPE html>
 <html lang="en">
