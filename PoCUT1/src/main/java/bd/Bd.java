@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -263,8 +264,8 @@ public class Bd {
 	}
 
 	//Méthode qui retourne l'emploi du temps d'un prof
-	public static HashMap<Cours, Seance> edt(String numE, String numSemaine) throws Exception {
-		HashMap<Cours, Seance> seances = new HashMap<>();
+	public static LinkedHashMap<Cours, Seance> edt(String numE, String numSemaine) throws Exception {
+		LinkedHashMap<Cours, Seance> seances = new LinkedHashMap<>();
 		if(cx==null) {
 			Bd.connexion();
 		}
@@ -465,7 +466,7 @@ public class Bd {
 		if(cx==null) {
 			Bd.connexion();
 		}
-		String query = "SELECT s.NumSE, s.DateSE, s.HeureDebutSE, s.HeureFinSE, s.NumeroSemaine, s.NumCO, c.NomCO, c.SalleCO,  p.EtatJ FROM Participer p, Seance s, Cours c WHERE p.EtatEtu = 'Absent'AND p.Justificatif is NULL AND p.NumE=? AND p.NumSE = s.NumSE AND c.numCO = s.NumCO";
+		String query = "SELECT s.NumSE, s.DateSE, s.HeureDebutSE, s.HeureFinSE, s.NumeroSemaine, s.NumCO, c.NomCO, c.SalleCO,  p.EtatJ FROM Participer p, Seance s, Cours c WHERE p.EtatEtu = 'Absent'AND p.Justificatif IS NULL AND p.NumE=? AND p.NumSE = s.NumSE AND c.numCO = s.NumCO";
 		try(PreparedStatement st = cx.prepareStatement(query)){
 			st.setInt(1, numU);
 			try(ResultSet rs = st.executeQuery()){
@@ -566,24 +567,12 @@ public class Bd {
 		}
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	
 		public static List<Justif> listerJustif() throws Exception{
-			
+			if(cx==null) {
+				Bd.connexion();
+			}
+
 			//String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.Justificatif  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.Justificatif IS NOT NULL AND EtatJ IS NULL";
 			String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.IdJ, P.NumSE  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.Justificatif IS NOT NULL AND EtatJ IS NULL";
 			
@@ -705,4 +694,58 @@ public class Bd {
 			}
 		}
 	}
+	public static void envoyerMail(String mail, String mdp, String prenom, String nom) throws Exception {
+		
+		 Properties props = new Properties();
+		 props.put("mail.smtp.host", "smtp-mail.outlook.com");
+		 props.put("mail.smtp.auth", "true");
+		 props.put("mail.smtp.starttls.enable", "true");
+		 Authenticator auth = new Authenticator() {
+		 protected PasswordAuthentication getPasswordAuthentication() {
+		 return new PasswordAuthentication(mail, mdp);
+		 }
+		 };
+		 Session session = Session.getInstance(props, auth);
+		
+		 try {
+		 MimeMessage message = new MimeMessage(session);
+		 message.setFrom(new InternetAddress(mail));
+		 message.addRecipient(Message.RecipientType.TO, new InternetAddress("genevieve.labrousse01@outlook.fr"));
+		 message.setSubject("Justificatif à valider");
+		 message.setText("L'etudiant "+ nom + " " + prenom + " a deposé un justificatif pour validation.");
+		
+		 Transport.send(message);
+		
+		 } catch (MessagingException e) {e.printStackTrace();}
+		 }
+	
+	
+	public static void validationJustificatif(String decision, long numE, String idJ) throws Exception {
+		System.out.println(decision);
+		if(cx==null) {
+			Bd.connexion();
+		}
+		
+		if(decision.equals("Valide")) {
+			
+			String sql = "UPDATE Participer SET EtatJ ='Valide' WHERE NumE=? AND Idj=?";
+			try(PreparedStatement st = cx.prepareStatement(sql)){
+				st.setLong(1, numE);
+				st.setString(2, idJ);
+				st.executeUpdate();
+				System.out.println(st);
+			}
+			
+		} else if(decision.equals("Invalide")) {
+			String sql = "UPDATE Participer SET EtatJ ='Invalide' WHERE NumE=? AND Idj=?";
+			try(PreparedStatement st = cx.prepareStatement(sql)){
+				st.setLong(1, numE);
+				st.setString(2, idJ);
+				st.executeUpdate();
+			}
+		}
+	}
+
+
+
 }

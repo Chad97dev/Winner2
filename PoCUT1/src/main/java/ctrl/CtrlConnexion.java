@@ -3,6 +3,7 @@ package ctrl;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 
 import bd.Bd;
+import metier.Justif;
 import metier.Seance;
 import metier.User;
 
@@ -49,6 +51,8 @@ public class CtrlConnexion extends HttpServlet {
 					request.getRequestDispatcher("EmploiDuTemps").forward(request, response);
 					break;
 				case "Scolarite":
+					List<Justif> liste =  Bd.listerJustif();
+					request.setAttribute("liste", liste);
 					request.getRequestDispatcher("VerifierJustificatif").forward(request, response);
 					break;
 				}}
