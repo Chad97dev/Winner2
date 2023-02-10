@@ -39,6 +39,29 @@ public class CtrlValiderFicheAppel extends HttpServlet {
 				session.removeAttribute("retards");
 				session.removeAttribute("absents");
 				request.getRequestDispatcher("EmploiDuTemps").forward(request, response);
+				
+				for(String eleveAbsent : listeAbsent) {
+				
+				long idAbsence = Long.parseLong(eleveAbsent);
+				
+				String mailEleves = Bd.getMail(idAbsence);
+				
+				if (mailEleves != null) {
+				
+				System.out.println(idAbsence);
+				
+				System.out.println(mailEleves);
+				
+				Bd.envoyerMailAbsent(mailEleves);
+				
+				} else {
+				
+				System.out.println("Aucun e-mail trouvé pour l'identifiant d'absence " + idAbsence);
+				
+				}
+				
+				}
+
 			}
 			else if (listeAbsent == null && listeRetard != null) {
 				Bd.enregistrerFicheAppel(listeRetard, numS, retard );
