@@ -95,7 +95,7 @@
 	<%
 	if (validation.equals("Non")) {
 		out.println(
-		"<input type=\"submit\" value=\"Enregistrer mes choix\" class=\"btn btn-success\" onclick=\"document.getElementById('ficheAppel').action='CtrlEnregistrerChoixAppel';\" >");
+		"<input type=\"submit\" id=\"btn\" value=\"Enregistrer mes choix\" class=\"btn btn-success\" onclick=\"document.getElementById('ficheAppel').action='CtrlEnregistrerChoixAppel';\" >");
 		out.println(
 		"<input type=\"submit\" value=\"Valider fiche d'appel\" class=\"btn btn-success\" onclick=\"document.getElementById('ficheAppel').action='CtrlValiderFicheAppel';\" >");
 		out.println("<br>");

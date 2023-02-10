@@ -91,6 +91,8 @@
       margin-bottom : 0;
       margin-left : 30px;
     }
+    #zoneModifImage{
+    display: none;}
   
   </style>
  
