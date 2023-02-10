@@ -97,12 +97,12 @@
 		out.println(
 		"<input type=\"submit\" id=\"btn\" value=\"Enregistrer mes choix\" class=\"btn btn-success\" onclick=\"document.getElementById('ficheAppel').action='CtrlEnregistrerChoixAppel';\" >");
 		out.println(
-		"<input type=\"submit\" value=\"Valider fiche d'appel\" class=\"btn btn-success\" onclick=\"document.getElementById('ficheAppel').action='CtrlValiderFicheAppel';\" >");
+		"<input type=\"submit\" value=\"Valider fiche d'appel\" class=\"btn btn-success\" id=\"boutton_valider_FA\" onclick=\"document.getElementById('ficheAppel').action='CtrlValiderFicheAppel';\" >");
 		out.println("<br>");
 	}
 	%>
 	<br>
-
+	<a class="btn btn-primary" id="btn" href="javascript:history.back()">Retour</a>
 	<a id="deconnection" class="btn btn-primary" href="CtrlDeconnexion">Se
 		deconnecter</a>
 

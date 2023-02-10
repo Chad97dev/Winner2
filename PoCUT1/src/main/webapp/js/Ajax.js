@@ -71,11 +71,11 @@ function afficheEDT ()
             // 表头
 			var text= sel.options[sel.selectedIndex].text;
 			var date=text.substring(text.length-10);
-			document.getElementById("t11").insertAdjacentHTML("beforeend", date);
-			document.getElementById("t12").insertAdjacentHTML("beforeend", getDate(date, 1));
-			document.getElementById("t13").insertAdjacentHTML("beforeend", getDate(date, 2));
-			document.getElementById("t14").insertAdjacentHTML("beforeend", getDate(date, 3));
-			document.getElementById("t15").insertAdjacentHTML("beforeend", getDate(date, 4));
+			document.getElementById("t11").insertAdjacentHTML("beforeend","<p>" +  date + "</p>" + "<p>LUNDI</p>");
+			document.getElementById("t12").insertAdjacentHTML("beforeend","<p>" + getDate(date, 1) + "</p>" + "<p>MARDI</p>");
+			document.getElementById("t13").insertAdjacentHTML("beforeend","<p>" + getDate(date, 2) + "</p>" + "<p>MERCREDI</p>");
+			document.getElementById("t14").insertAdjacentHTML("beforeend","<p>" + getDate(date, 3) + "</p>" + "<p>JEUDI</p>");
+			document.getElementById("t15").insertAdjacentHTML("beforeend","<p>" + getDate(date, 4) + "</p>" + "<p>VENDREDI</p>");
 			
 			document.getElementById("t10").insertAdjacentHTML("beforeend", "");
 			document.getElementById("t20").insertAdjacentHTML("beforeend", "08:00 - 09:30");

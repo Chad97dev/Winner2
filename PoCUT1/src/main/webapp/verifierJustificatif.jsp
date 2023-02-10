@@ -10,6 +10,8 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Justificatifs à vérifier</title>
+<link rel="stylesheet" href="css/stylesUs9.css">
+
 <link rel="stylesheet"
 	href="fonts/material-icon/css/material-design-iconic-font.min.css">
 
@@ -57,11 +59,13 @@ if(liste != null){
 <td><a href="CtrlDecisionJustificatif?decision=Invalide&numE=<%= justif.getNumE()%>&idJ=<%= justif.getIdJ()%>"><input type="button" value="Invalider"></a></td>
 </tr>
 <tbody>
+
 <%
 	}
 }
 %>
-	</table>
+<a id="deconnection" class="btn btn-primary" href="CtrlDeconnexion">Se déconnecter</a>
+	<!-- </table>
 </div>  
 </body>
-</html>
+</html> -->

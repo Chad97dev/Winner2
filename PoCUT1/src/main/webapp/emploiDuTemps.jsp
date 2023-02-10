@@ -38,7 +38,7 @@
 	</select>
 	<br />
 	
-	<a href="CtrlDeconnexion">Se deconnecter</a>
+	
 
 	<div id="seances"></div>
 	<div id="seancesbis" style="display: none">
@@ -55,6 +55,9 @@
 		
 		</table>
 	</div>
+	
+	<div>${requestScope.msg_validationFA}</div>
+	<div><a href="CtrlDeconnexion">Se deconnecter</a></div>
 
 
 

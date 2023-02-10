@@ -1,6 +1,8 @@
 package ctrl;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +26,7 @@ public class CtrlValiderFicheAppel extends HttpServlet {
 		try {
 			if(listeAbsent == null && listeRetard == null) {
 				Bd.updateValidationFicheAppel(numS);
-				request.setAttribute("msg_validationFA", "La fiche d'appel avec tout le monde présent a bien été enregistrée.");
+				request.setAttribute("msg_validationFA", "La fiche d'appel a bien été enregistrée.");
 				session.removeAttribute("presents");
 				session.removeAttribute("retards");
 				session.removeAttribute("absents");
@@ -32,7 +34,7 @@ public class CtrlValiderFicheAppel extends HttpServlet {
 			}
 			else if(listeAbsent != null && listeRetard == null) {
 				Bd.enregistrerFicheAppel(listeAbsent, numS, absent );
-				request.setAttribute("msg_validationFA", "La fiche d'appel avec absent mais sans retard a bien été enregistrée.");
+				request.setAttribute("msg_validationFA", "La fiche d'appel a bien été enregistrée.");
 				session.removeAttribute("presents");
 				session.removeAttribute("retards");
 				session.removeAttribute("absents");
@@ -40,7 +42,7 @@ public class CtrlValiderFicheAppel extends HttpServlet {
 			}
 			else if (listeAbsent == null && listeRetard != null) {
 				Bd.enregistrerFicheAppel(listeRetard, numS, retard );
-				request.setAttribute("msg_validationFA", "La fiche d'appel avec retard mais sans absents a bien été enregistrée.");
+				request.setAttribute("msg_validationFA", "La fiche d'appel a bien été enregistrée.");
 				session.removeAttribute("presents");
 				session.removeAttribute("retards");
 				session.removeAttribute("absents");
@@ -49,7 +51,7 @@ public class CtrlValiderFicheAppel extends HttpServlet {
 			else {
 				Bd.enregistrerFicheAppel(listeRetard, numS, retard );
 				Bd.enregistrerFicheAppel(listeAbsent, numS, absent );
-				request.setAttribute("msg_validationFA", "La fiche d'appel avec retard et absent a bien été enregistrée.");
+				request.setAttribute("msg_validationFA", "La fiche d'appel a bien été enregistrée.");
 				session.removeAttribute("presents");
 				session.removeAttribute("retards");
 				session.removeAttribute("absents");
