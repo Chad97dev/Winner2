@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import metier.Cours;
 import metier.Etudiant;
@@ -89,10 +90,16 @@ public class Bd {
 			String typeU ="Present";
 			//Bd.enregistrerFicheAppel(abs, numS, typeU);
 			Bd.updateValidationFicheAppel(numS);
+			System.out.println(Bd.getFormation(numS));
+			System.out.println("-------------------------------------------------------------------------------------------");
+			for(String e : Bd.getAbsentValidee("1")) {
+				System.out.println(e);
+			}
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
+
 	}
 
 	//Méthodes 
@@ -158,12 +165,12 @@ public class Bd {
 	}
 
 	//Méthode qui retourne l'emploi du temps d'un prof
-	public static HashMap<Cours, Seance> edt(String numE, String numSemaine) throws Exception {
-		HashMap<Cours, Seance> seances = new HashMap<>();
+	public static LinkedHashMap<Cours, Seance> edt(String numE, String numSemaine) throws Exception {
+		LinkedHashMap<Cours, Seance> seances = new LinkedHashMap<>();
 		if(cx==null) {
 			Bd.connexion();
 		}
-		String query = "SELECT S.NumSE, S.DateSE, S.HeureDebutSE, S.HeureFinSE, S.NumeroSemaine, C.NumCO, C.NomCO, C.SalleCO FROM Seance S, Enseignant E, Cours C WHERE E.NumEN = S.NumEN AND C.NumCO = S.NumCO AND E.NumEN=? AND S.NumeroSemaine =? ORDER BY S.DateSE DESC, S.HeureFinSE DESC";
+		String query = "SELECT S.NumSE, S.DateSE, S.HeureDebutSE, S.HeureFinSE, S.NumeroSemaine, C.NumCO, C.NomCO, C.SalleCO FROM Seance S, Enseignant E, Cours C WHERE E.NumEN = S.NumEN AND C.NumCO = S.NumCO AND E.NumEN=? AND S.NumeroSemaine =? ORDER BY S.DateSE ASC, S.HeureDebutSE ASC";
 		try(PreparedStatement st = cx.prepareStatement(query)){
 			st.setString(1, numE);
 			st.setString(2, numSemaine);
@@ -173,7 +180,7 @@ public class Bd {
 				}
 			}
 		}catch(Exception sqle) {
-			throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
+			throw new Exception("Exception Bd.edt - afficher les séances - " + sqle.getMessage());
 		}
 		return seances;
 	}
@@ -195,7 +202,7 @@ public class Bd {
 				}
 			}
 		}catch(Exception sqle) {
-			throw new Exception("Exception Bd.afficherTest - afficher les séances - " + sqle.getMessage());
+			throw new Exception("Exception Bd.listeEtudiant - afficher les séances - " + sqle.getMessage());
 		}
 		return listeEtudiants;	
 	}
@@ -254,6 +261,10 @@ public class Bd {
 				return rs.getString(1);
 			}
 		}
+		catch(SQLException sqle) {
+			throw new Exception ("Exception bd.verifValidationFicheAppel - probleme a l'Update - " + sqle.getMessage());
+
+		}
 	}
 
 	public static void updateValidationFicheAppel(String numS) throws Exception {
@@ -267,9 +278,70 @@ public class Bd {
 			nb = st.executeUpdate();
 		}
 		catch(SQLException sqle) {
-			throw new Exception ("Exception bd.enregistrerFicheAppel - probleme a l'Update - " + sqle.getMessage());
+			throw new Exception ("Exception bd.updateFicheAppel - probleme a l'Update - " + sqle.getMessage());
 
 		}
+	}
+
+	public static String getFormation(String numS) throws Exception {
+		if(cx==null) {
+			Bd.connexion();
+		}
+		String query = "Select DISTINCT F.NomF, F.NiveauF, F.StatusF, C.NomCO FROM Cours C, Formation F, Etudiant E, Participer P, Seance S WHERE S.NumSE = P.NumSE AND P.NumE = E.NumE AND E.NumF = F.NumF AND S.NumCO = C.NumCO AND S.NumSE=? ";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setString(1, numS);
+			try(ResultSet rs = st.executeQuery()){
+				if(rs.next()) {
+					return rs.getString(4) + " " + rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3);
+					}
+				else { 
+					return "Il n'y a pas de formation disponible";
+					}
+				}
+		}
+		catch(SQLException sqle) {
+			throw new Exception ("Exception bd.getFormation - probleme au retour des formations - " + sqle.getMessage());
+
+		}}
+
+	public static ArrayList<String> getRetardValidee(String numS) throws Exception {
+		if(cx==null) {
+			Bd.connexion();
+		}
+		ArrayList<String> listeEtudiants = new ArrayList<>();
+		String query = "SELECT E.NumE FROM Etudiant E, Participer P, Seance S WHERE E.NumE = P.NumE AND P.NumSE = S.NumSE AND P.NumSE=? AND P.EtatEtu = 'Retard'";
+
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setString(1, numS);
+			try(ResultSet rs = st.executeQuery()){
+				while (rs.next()) {
+					listeEtudiants.add(rs.getString(1));
+				}
+			}
+		}catch(Exception sqle) {
+			throw new Exception("Exception Bd.getRetardValidee - afficher les séances - " + sqle.getMessage());
+		}
+		return listeEtudiants;	
+	}
+
+	public static ArrayList<String> getAbsentValidee(String numS) throws Exception {
+		if(cx==null) {
+			Bd.connexion();
+		}
+		ArrayList<String> listeEtudiants = new ArrayList<>();
+		String query = "SELECT E.NumE FROM Etudiant E, Participer P, Seance S WHERE E.NumE = P.NumE AND P.NumSE = S.NumSE AND P.NumSE=? AND P.EtatEtu = 'Absent'";
+
+		try(PreparedStatement st = cx.prepareStatement(query)){
+			st.setString(1, numS);
+			try(ResultSet rs = st.executeQuery()){
+				while (rs.next()) {
+					listeEtudiants.add(rs.getString(1));
+				}
+			}
+		}catch(Exception sqle) {
+			throw new Exception("Exception Bd.getAbsentValidee - afficher les séances - " + sqle.getMessage());
+		}
+		return listeEtudiants;	
 	}
 
 

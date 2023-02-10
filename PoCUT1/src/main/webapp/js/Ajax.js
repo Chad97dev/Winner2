@@ -28,35 +28,23 @@
 			var xmlDoc = xhr.responseXML;
         	var seances = xmlDoc.getElementsByTagName("seance");
         	var numSeances = xmlDoc.getElementsByTagName("numSeance");
+        	var date = xmlDoc.getElementsByTagName("dateSeance");
+        	var heureDebSeance = xmlDoc.getElementsByTagName("heureDebSeance");
+        	var heureFinSeance = xmlDoc.getElementsByTagName("heureFinSeance");
         	var elt = document.getElementById("seances");
         	var c = "<ul> "
         	for (var i = 0; i < seances.length; i++) {
-            	c = c + "<li><a href=CtrlFicheAppel?numS=" + numSeances[i].textContent +"&seance=" + seances[i].textContent + ">" + seances[i].textContent + "</a></li>";
-        	}
-        	
+            	c = c + "<li><a href=CtrlFicheAppel?numSeance=" + numSeances[i].textContent + "&date=" + date[i].textContent+ "&heureDeb=" + heureDebSeance[i].textContent + "&heureFin=" + heureFinSeance[i].textContent + ">" + seances[i].textContent + "</a></li>";
+        	} 
+        	 
             elt.innerHTML = c + "</ul>";
 			}
-		};
+		}; 
 
 	// Envoie de la requête.
 	xhr.send();
 	}
-
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+	
  /**
  * Lancement après le chargement du DOM.
  */
