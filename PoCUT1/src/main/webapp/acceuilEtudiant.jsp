@@ -20,7 +20,8 @@
 		String listeId = (String)session.getAttribute("email");
 		HashMap<Seance, String> listeSeances = (HashMap<Seance, String>)session.getAttribute("listeSeances");
 		if(listeSeances == null){
-			out.print("<p>Vous n'avons pas de séance absente</p>");
+			out.print("<p></p>");
+			out.print("<p>Vous n'avez pas été absent</p>");
 		}else{
 			Iterator it = listeSeances.keySet().iterator();
 			Integer i = 0;
@@ -116,7 +117,7 @@ Coded by www.creative-tim.com
           <li class="nav-item dropdown">
             <a href="#" class="nav-link" data-toggle="dropdown" href="#" role="button">
               <i class="ni ni-collection d-lg-none"></i>
-              <span class="nav-link-inner--text">Menu </span>
+              <span class="nav-link-inner--text" id="accueil_etu_menu">Menu </span>
             </a>
             <div class="dropdown-menu">
               <a href="CtrlProfil" class="dropdown-item">Mon profil</a>
@@ -175,10 +176,12 @@ Coded by www.creative-tim.com
 		String listeId = (String)session.getAttribute("email");
 		HashMap<Seance, String> listeSeances = (HashMap<Seance, String>)session.getAttribute("listeSeances");
 		if(listeSeances == null){
-			out.print("<p>Vous n'avons pas de séance absente</p>");
+			out.print("<h1>Bienvenue dans votre espace</h1>");
+			out.print("<p>Vous n'avez pas été absent</p>");
 		}else{
 			Iterator it = listeSeances.keySet().iterator();
 			Integer i = 0;
+			out.print("<h1>Bienvenue dans votre espace</h1>");
 			out.print("<h1>Liste des absences</h1><p>Veuillez choisir les séances pour lesquelles vous voulez déposer un justificatif : </p><form action=\"CtrlCfrmAbs\" method=\"post\" ><table><tr><td>JUSTIFICATIF</td><td>COURS</td><td>DATE</td><td>HEURE</td></tr>");
 			while(it.hasNext()){
 				Seance se = (Seance) it.next();
