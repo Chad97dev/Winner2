@@ -1,20 +1,54 @@
 package bd;
+
 import java.io.InputStream;
+
 import java.sql.Blob;
+
 import java.sql.Connection;
+
 import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
+
 import java.sql.SQLException;
+
 import java.util.ArrayList;
+
 import java.util.HashMap;
+
+import java.util.LinkedHashMap;
+
 import java.util.List;
 
+import java.util.Properties;
+
+ 
+
 import metier.Cours;
+
 import metier.Etudiant;
+
 import metier.Seance;
+
 import metier.Justif;
+
 import metier.User;
+
+ 
+
+import javax.mail.*;
+
+import javax.mail.internet.*;
+
+import javax.mail.Session;
+
+import javax.mail.Transport;
+
+import javax.mail.PasswordAuthentication;
+
+
 
 public class Bd {
 
@@ -117,7 +151,7 @@ public class Bd {
 	public static void main(String[] args) throws Exception {
 		try {
 			Bd.connexion();
-			System.out.println("chargement du pilote réussi");
+			/*System.out.println("chargement du pilote réussi");
 			String type = Bd.verifTypeUser("raphael.bour@ut-capitole.fr","raphael");
 			System.out.println(Bd.verifConnexion(type,"raphael.bour@ut-capitole.fr","raphaela"));
 			System.out.println(Bd.verifConnexion(type, "raphael.bour@ut-capitole.fr","raphaela").getNomU());
@@ -141,8 +175,8 @@ public class Bd {
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getNom());
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getPrenom());
 			System.out.println(Bd.verifConnexion("Scolarite","genevieve.labrousse01@gmail.com","genevieve").getConnexion());*/
-			List<Justif> liste = Bd.listerJustif();
-			System.out.println(liste);
+			//List<Justif> liste = Bd.listerJustif();
+			Bd.sendEmailEleves("koungoubrynda51@outlook.fr");
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -619,5 +653,100 @@ public class Bd {
 		}
 		
 	}
+	/*public static String getMail(long id) throws Exception{
+		 String email = null;
+		 if(cx==null) {
+				Bd.connexion();
+			}
+		  String sql = "SELECT EmailE FROM Etudiant WHERE NumE=?";
+		    try (PreparedStatement st = cx.prepareStatement(sql)){
+		    	
+		    		st.setLong(1, id);
+		    		st.execute();
+		    		return email;
+		        
+		      }
+		     catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+			return email;
+		    
+	 }
+	 */
+	public static String getMail(long id) throws Exception{
+	    String email = null;
+	    if(cx==null) {
+	        Bd.connexion();
+	    }
+	    String sql = "SELECT EmailE FROM Etudiant WHERE NumE=?";
+	    try (PreparedStatement st = cx.prepareStatement(sql)){
+
+	        st.setLong(1, id);
+	        ResultSet rs = st.executeQuery();
+	        if (rs.next()) {
+	            email = rs.getString("EmailE");
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return email;
+	}
+
+	 
+	public static void sendEmailEleves(String email) throws Exception {
+	    
+	    Properties props = new Properties();
+	    props.put("mail.smtp.host", "smtp-mail.outlook.com");
+	    //props.put("mail.smtp.port", "587");
+	    props.put("mail.smtp.auth", "true");
+	    props.put("mail.smtp.starttls.enable", "true");
+	    
+	    Authenticator auth = new Authenticator() {
+	        protected PasswordAuthentication getPasswordAuthentication() {
+	            return new PasswordAuthentication("genevieve.labrousse01@outlook.fr", "Genevieve1!");
+	        }
+	    };
+	    Session session = Session.getInstance(props, auth);
+	    System.out.println(session);
+	    try {
+	        System.out.println(email);
+	    	MimeMessage message = new MimeMessage(session);
+
+	    	message.setFrom(new InternetAddress(email));
+
+	    	message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+
+	    	message.setSubject("Absence");
+
+	    	message.setText("L'etudiant " + " " + " est absent aujourd'hui.");
+
+	    	 
+
+	    	Transport.send(message);
+	        System.out.println("confirmer envoie");
+	    } catch (MessagingException e) {
+	        e.printStackTrace();
+	        System.out.println("echec envoie");
+	        
+	    }
+	}
+	  
+
+	    	 
+
+	    
+	    	 
+
+	    	
+
+	    	 
+
+	
+    
+
+	 
 	
 }
+	
+
