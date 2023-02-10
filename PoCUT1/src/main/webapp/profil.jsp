@@ -289,6 +289,13 @@
         token: "ee6fab19c5a04ac1a32a645abde4613a",
         application: "argon-design-system-pro"
       });
+    
+    function afficherModif(){
+    	document.getElementById("zoneModifImage").style.display="block";
+    }
+    function cacherModif(){
+    	document.getElementById("zoneModifImage").style.display="none";
+    }
   </script>
 </body>
 

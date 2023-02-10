@@ -733,6 +733,24 @@ public class Bd {
 			}
 		}
 	}
+	
+	public static void deposerImg(Integer numU, InputStream photo) throws Exception {
+		//connexion
+		if(cx==null) {
+			Bd.connexion();
+		}
+		//requête
+		String query = "UPDATE Etudiant SET PhotoLienE = ? WHERE NumE = ?;";
+		try(PreparedStatement st = cx.prepareStatement(query)){
+            st.setBinaryStream(1, photo);
+            st.setInt(2, numU);
+            
+            //execute
+			st.executeUpdate();
+			}catch(Exception sqle){
+				throw new Exception("Exception Bd.deposerImg - deposer un photo - " + sqle.getMessage());
+			}
+	}
 
 
 
