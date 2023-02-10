@@ -486,7 +486,7 @@ Transport.send(message);
 			Bd.connexion();
 		}
 		//requête
-		String query = "UPDATE Participer SET EtatJ = \"Invalide\", IdJ = ?, Justificatif = ? WHERE NumE = ? AND NumSE = ?;";
+		String query = "UPDATE Participer SET IdJ = ?, Justificatif = ? WHERE NumE = ? AND NumSE = ?;";
 		try(PreparedStatement st = cx.prepareStatement(query)){
             st.setString(1, idJ);
             st.setBinaryStream(2, lien);
