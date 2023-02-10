@@ -41,6 +41,8 @@ public class upload extends HttpServlet {
         Integer numU = (Integer) session.getAttribute("numU");
         String nomU = (String) session.getAttribute("nom");
         String prenomU = (String) session.getAttribute("prenom");
+        String mailU = (String) session.getAttribute("email");
+        String pwd = (String) session.getAttribute("pwd");
         System.out.println("attribute ok");
         
         //generer un ID pour justificatif
@@ -67,6 +69,8 @@ public class upload extends HttpServlet {
 		        try {Bd.deposerJus(numU, numSe, inputStream, idJ);
 		        System.out.println("update ok");
 		        System.out.println("aller à la page suivante");
+		        inputStream.close();
+		        Bd.envoyerMail(mailU, pwd, prenomU, nomU);
 		        String mail = URLEncoder.encode((String) session.getAttribute("email"), "utf-8");
 		        request.getRequestDispatcher("CtrlConnexion?username="+mail+"&password="+session.getAttribute("pwd")+"&signin=Log+in").forward(request, response);
 		        }

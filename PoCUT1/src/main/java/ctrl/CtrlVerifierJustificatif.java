@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bd.Bd;
 import metier.Justif;
@@ -34,7 +35,6 @@ public class CtrlVerifierJustificatif extends HttpServlet {
 		
 		
 			try{
-				Bd.connexion();
 				List<Justif> liste =  Bd.listerJustif();
 				if(liste.isEmpty()) {
 					request.setAttribute("reponse", "la liste est vide");

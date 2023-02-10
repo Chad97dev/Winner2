@@ -17,9 +17,10 @@ public class Justif {
 	private Date dateSe;
 	private String etatE;
 	private String idJ;
+	private long idSe;
     
     
-	public Justif(long numE, String nomE, String prenomE, Date dateSe, String etatE, String idJ) {
+	public Justif(long numE, String nomE, String prenomE, Date dateSe, String etatE, String idJ, long idSe) {
 		super();
 		this.numE = numE;
 		this.nomE = nomE;
@@ -27,6 +28,7 @@ public class Justif {
 		this.dateSe = dateSe;
 		this.etatE = etatE;
 		this.idJ = idJ;
+		this.idSe = idSe;
 	}
 
 	public long getNumE() {
@@ -77,10 +79,20 @@ public class Justif {
 		this.idJ = idJ;
 	}
 
+	public long getIdSe() {
+		return idSe;
+	}
+
+	public void setIdSe(long idSe) {
+		this.idSe = idSe;
+	}
+
 	@Override
 	public String toString() {
 		return "Justif [numE=" + numE + ", nomE=" + nomE + ", prenomE=" + prenomE + ", dateSe=" + dateSe + ", etatE="
-				+ etatE + ", idJ=" + idJ + "]";
+				+ etatE + ", idJ=" + idJ + ", idSe=" + idSe + "]";
 	}
+
+	
     
 }

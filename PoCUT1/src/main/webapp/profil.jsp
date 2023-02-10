@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ page import="java.net.URLEncoder" %>
 <!--  <!DOCTYPE html>
 <html>
 <head>
@@ -182,7 +183,22 @@
             <div class="text-center mt-5">
             <h1>Mon profil</h1>
             <h3>Photo de profil</h3>
-			<img src="show.jsp">
+			<% int numU = (int) session.getAttribute("numU") ;
+				out.print("<img src=CtrlImage?id=" + numU +" width = '240px' height='250px'/>"); %>
+				<p id="modifImage" onclick="afficherModif()">modifier</p>
+				<div id="zoneModifImage">
+					<form action="CtrlUploadImg" method="post" enctype="multipart/form-data">
+						<input type="file" accept="image/*" capture="camera " name="file"><br><br>
+						<input type="submit" value="Enregistrer">
+						<p onclick="cacherModif()">Annuler</p>
+					</form>
+					<p>${requestScope.msg_error}</p>
+				</div>
+				<%
+				String mail = URLEncoder.encode((String) session.getAttribute("email"), "utf-8");
+				out.print("<a href=\"CtrlConnexion?username="+mail+"&password="+session.getAttribute("pwd")+"&signin=Log+in\">Home</a>");
+				%>
+			
               <h3>Informations personnelles</h3>
               <p> 
               

@@ -10,12 +10,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Properties;
 
 import metier.Cours;
 import metier.Etudiant;
 import metier.Seance;
 import metier.Justif;
 import metier.User;
+
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.PasswordAuthentication;
 
 public class Bd {
 
@@ -555,26 +562,14 @@ public class Bd {
 		}
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	
 		public static List<Justif> listerJustif() throws Exception{
-			
+			if(cx==null) {
+				Bd.connexion();
+			}
+
 			//String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.Justificatif  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.Justificatif IS NOT NULL AND EtatJ IS NULL";
-			String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.IdJ  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.LienJ IS NOT NULL AND EtatJ IS NULL";
+			String sql = "SELECT E.NumE ,E.NomE, E.PrenomE, S.DateSE, P.EtatEtu, P.IdJ, P.NumSE  FROM Participer P, Seance S, Etudiant E  WHERE P.NumE = E.NumE AND S.NumSE = P.NumSE AND P.EtatEtu ='Absent' AND P.Justificatif IS NOT NULL AND EtatJ IS NULL";
 			
 			ArrayList<Justif> liste = new ArrayList<>();
 			
@@ -584,7 +579,7 @@ public class Bd {
 	                { 
 		             while(rs.next())
 		              {
-			            Justif j = new Justif(rs.getLong(1), rs.getString(2),rs.getString(3),rs.getDate(4),rs.getString(5),rs.getString(6));
+			            Justif j = new Justif(rs.getLong(1), rs.getString(2),rs.getString(3),rs.getDate(4),rs.getString(5),rs.getString(6),rs.getLong(7));
 			            liste.add(j);
 		                }
 		
@@ -621,4 +616,58 @@ public class Bd {
 		
 	}
 	
+	public static void envoyerMail(String mail, String mdp, String prenom, String nom) throws Exception {
+		
+		 Properties props = new Properties();
+		 props.put("mail.smtp.host", "smtp-mail.outlook.com");
+		 props.put("mail.smtp.auth", "true");
+		 props.put("mail.smtp.starttls.enable", "true");
+		 Authenticator auth = new Authenticator() {
+		 protected PasswordAuthentication getPasswordAuthentication() {
+		 return new PasswordAuthentication(mail, mdp);
+		 }
+		 };
+		 Session session = Session.getInstance(props, auth);
+		
+		 try {
+		 MimeMessage message = new MimeMessage(session);
+		 message.setFrom(new InternetAddress(mail));
+		 message.addRecipient(Message.RecipientType.TO, new InternetAddress("genevieve.labrousse01@outlook.fr"));
+		 message.setSubject("Justificatif à valider");
+		 message.setText("L'etudiant "+ nom + " " + prenom + " a deposé un justificatif pour validation.");
+		
+		 Transport.send(message);
+		
+		 } catch (MessagingException e) {e.printStackTrace();}
+		 }
+	
+	
+	public static void validationJustificatif(String decision, long numE, String idJ) throws Exception {
+		System.out.println(decision);
+		if(cx==null) {
+			Bd.connexion();
+		}
+		
+		if(decision.equals("Valide")) {
+			
+			String sql = "UPDATE Participer SET EtatJ ='Valide' WHERE NumE=? AND Idj=?";
+			try(PreparedStatement st = cx.prepareStatement(sql)){
+				st.setLong(1, numE);
+				st.setString(2, idJ);
+				st.executeUpdate();
+				System.out.println(st);
+			}
+			
+		} else if(decision.equals("Invalide")) {
+			String sql = "UPDATE Participer SET EtatJ ='Invalide' WHERE NumE=? AND Idj=?";
+			try(PreparedStatement st = cx.prepareStatement(sql)){
+				st.setLong(1, numE);
+				st.setString(2, idJ);
+				st.executeUpdate();
+			}
+		}
+	}
+
+
+
 }
