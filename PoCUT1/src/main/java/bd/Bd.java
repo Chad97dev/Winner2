@@ -125,7 +125,7 @@ public class Bd {
 	public static void main(String[] args) throws Exception {
 		try {
 			Bd.connexion();
-			System.out.println("chargement du pilote réussi");
+			/*System.out.println("chargement du pilote réussi");
 			String type = Bd.verifTypeUser("raphael.bour@ut-capitole.fr","raphael");
 			System.out.println(Bd.verifConnexion(type,"raphael.bour@ut-capitole.fr","raphaela"));
 			System.out.println(Bd.verifConnexion(type, "raphael.bour@ut-capitole.fr","raphaela").getNomU());
@@ -148,7 +148,8 @@ public class Bd {
 			System.out.println("-------------------------------------------------------------------------------------------");
 			for(String e : Bd.getAbsentValidee("1")) {
 				System.out.println(e);
-			}
+			}*/
+			
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -158,6 +159,93 @@ public class Bd {
 		
 
 	}
+	
+	public static String getMail(long id) throws Exception{
+
+		String email = null;
+
+		if(cx==null) {
+
+		Bd.connexion();
+
+		}
+
+		String sql = "SELECT EmailE FROM Etudiant WHERE NumE=?";
+
+		try (PreparedStatement st = cx.prepareStatement(sql)){
+
+		 
+
+		st.setLong(1, id);
+
+		ResultSet rs = st.executeQuery();
+
+		if (rs.next()) {
+
+		email = rs.getString("EmailE");
+
+		}
+
+		 
+
+		} catch (SQLException e) {
+
+		e.printStackTrace();
+
+		}
+
+		return email;
+
+		}
+
+public static void envoyerMailAbsent(String mail) throws Exception {
+
+ 
+
+Properties props = new Properties();
+
+props.put("mail.smtp.host", "smtp-mail.outlook.com");
+
+props.put("mail.smtp.auth", "true");
+
+props.put("mail.smtp.starttls.enable", "true");
+
+Authenticator auth = new Authenticator() {
+
+protected PasswordAuthentication getPasswordAuthentication() {
+
+return new PasswordAuthentication("genevieve.labrousse01@outlook.fr", "Genevieve1!");
+
+}
+
+};
+
+Session session = Session.getInstance(props, auth);
+
+ 
+
+try {
+
+MimeMessage message = new MimeMessage(session);
+
+message.setFrom(new InternetAddress("genevieve.labrousse01@outlook.fr"));
+
+message.addRecipient(Message.RecipientType.TO, new InternetAddress(mail));
+
+message.setSubject("Absence");
+
+message.setText("Vous avez été noté.e absent pour une seance de cours. Veuillez la réguler.");
+
+ 
+
+Transport.send(message);
+
+ 
+
+} catch (MessagingException e) {e.printStackTrace();}
+
+}
+
 	
 	public static Blob afficherFichier() throws Exception {
 		// Ouvrir une connexion à la base de données
