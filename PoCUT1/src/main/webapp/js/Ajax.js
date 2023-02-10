@@ -144,8 +144,7 @@ function afficheEDT ()
 					var idSeance = 't' + `${ligne}` + colonne;
 					console.log(idSeance);
 					document.getElementById(idSeance).insertAdjacentHTML("beforeend", "<div><a href=CtrlFicheAppel?numSeance=" + item["numSeance"] + "&date=" + item["dateA"] + "&heureDeb=" + item["heureDeb"] + "&heureFin=" + item["heureFin"] + "><p>" + item["cours"] + "</p><p> " + item["salle"] + "</p></a></div>");
-					document.getElementById(idSeance).style.cssText = "border-bottom:0px solid #000";
-					
+					document.getElementById(idSeance).style.cssText = "border-bottom:0px solid #000;";
 					
 					ligne = +ligne + 1;
 					var idSeance = 't' + `${ligne}` + colonne;

@@ -4,6 +4,7 @@
 <%@ page import="metier.Seance"%>
 <%@ page import="java.util.HashMap"%>
 <%@ page import="java.util.Iterator"%>
+<%@ page import="java.net.URLEncoder" %>
 <!--<!DOCTYPE html>
 <html>
 <head>
@@ -105,7 +106,10 @@
             </a>
             <div class="dropdown-menu">
               <a href="CtrlProfil" class="dropdown-item">Mon profil</a>
-              <a href="CtrlConnexion" class="dropdown-item">Absences non-justifiées</a>
+              <% String mail = URLEncoder.encode((String) session.getAttribute("email"), "utf-8");
+ 				out.print("<a class=\"dropdown-item\" href=\"CtrlConnexion?username="+mail+"&password="+session.getAttribute("pwd")+"&signin=Log+in\">Absences non-justifiées</a>");
+%>
+              <!-- <a href="CtrlConnexion" class="dropdown-item">Absences non-justifiées</a> -->
               
             </div>
           </li>

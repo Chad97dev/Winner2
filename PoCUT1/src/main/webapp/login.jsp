@@ -51,7 +51,7 @@
 							</div>
 							<div class="form-group form-button">
 								<input type="submit" name="signin" id="signin"
-									class="form-submit" value="Se connecter" />
+									class="form-submit" value="Connexion" />
 							</div>
 						</form>
 						<%

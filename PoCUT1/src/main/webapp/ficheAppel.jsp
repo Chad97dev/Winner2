@@ -103,8 +103,7 @@
 	%>
 	<br>
 	<a class="btn btn-primary" id="btn" href="javascript:history.back()">Retour</a>
-	<a id="deconnection" class="btn btn-primary" href="CtrlDeconnexion">Se
-		deconnecter</a>
+	<a id="deconnection" class="btn btn-primary" href="CtrlDeconnexion">Déconnexion</a>
 
 
 
