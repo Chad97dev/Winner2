@@ -454,7 +454,7 @@ public class Bd {
 		if(cx==null) {
 			Bd.connexion();
 		}
-		String query = "SELECT s.NumSE, s.DateSE, s.HeureDebutSE, s.HeureFinSE, s.NumeroSemaine, s.NumCO, c.NomCO, c.SalleCO,  p.EtatJ FROM Participer p, Seance s, Cours c WHERE p.EtatEtu = 'Absent'AND p.Justificatif=\"\" AND p.NumE=? AND p.NumSE = s.NumSE AND c.numCO = s.NumCO";
+		String query = "SELECT s.NumSE, s.DateSE, s.HeureDebutSE, s.HeureFinSE, s.NumeroSemaine, s.NumCO, c.NomCO, c.SalleCO,  p.EtatJ FROM Participer p, Seance s, Cours c WHERE p.EtatEtu = 'Absent'AND p.Justificatif IS NULL AND p.NumE=? AND p.NumSE = s.NumSE AND c.numCO = s.NumCO";
 		try(PreparedStatement st = cx.prepareStatement(query)){
 			st.setInt(1, numU);
 			try(ResultSet rs = st.executeQuery()){
