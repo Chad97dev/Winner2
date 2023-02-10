@@ -15,6 +15,7 @@
 </head>
 <body>
 	<%
+
 	Calendar calendar = Calendar.getInstance();
 	int currentWeekNumber = calendar.get(Calendar.WEEK_OF_YEAR);
 	%>
@@ -39,7 +40,6 @@
 	
 	<a href="CtrlDeconnexion">Se deconnecter</a>
 
-	<div>${requestScope.msg_validationFA}</div>
 	<div id="seances"></div>
 	<div id="seancesbis" style="display: none">
 		<table border="1">
