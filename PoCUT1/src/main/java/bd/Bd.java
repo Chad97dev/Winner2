@@ -232,9 +232,9 @@ message.setFrom(new InternetAddress("genevieve.labrousse01@outlook.fr"));
 
 message.addRecipient(Message.RecipientType.TO, new InternetAddress(mail));
 
-message.setSubject("Justificatif à valider");
+message.setSubject("Absence");
 
-message.setText("Vous avez été noter absent pour une seance de cours. Veuillez la réguler.");
+message.setText("Vous avez été noté.e absent pour une seance de cours. Veuillez la réguler.");
 
  
 
